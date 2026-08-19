@@ -1,0 +1,45 @@
+---
+/**
+ * 设计提醒：布局保持“石碑与静默”的克制、单语印尼语与石材阅读感；不使用通用旅游推广口吻。
+ */
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noIndex?: boolean;
+}
+
+const { title, description, image, noIndex = false } = Astro.props;
+const configuredSite = Astro.site?.toString().replace(/\/$/, "");
+const canonical = configuredSite ? new URL(Astro.url.pathname, `${configuredSite}/`).toString() : undefined;
+const shareImage = configuredSite && image ? new URL(image, `${configuredSite}/`).toString() : undefined;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#151617" />
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noIndex && <meta name="robots" content="noindex,nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {shareImage && <meta property="og:image" content={shareImage} />}
+    <meta name="twitter:card" content={shareImage ? "summary_large_image" : "summary"} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#konten">Lewati ke isi utama</a>
+    <slot />
+  </body>
+</html>

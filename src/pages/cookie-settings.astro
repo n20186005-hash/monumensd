@@ -1,8 +1,9 @@
 ---
 /** 设计提醒：独立 Cookie 页面采用静态、可直达的偏好管理，不干扰纪念内容。 */
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withSiteName } from "../data/site";
 ---
-<BaseLayout title="Pengaturan Kuki — Monumen Ground Zero Bali" description="Pengaturan Cookie untuk Panduan Monumen Ground Zero Bali.">
+<BaseLayout title={withSiteName("Pengaturan Kuki")} description="Pengaturan Cookie untuk Panduan Monumen Ground Zero Bali.">
   <main class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Preferensi</p><h1>Pengaturan Kuki</h1><p class="legal-date">Terakhir diperbarui: Agustus 2026</p><p class="legal-lede">Kami menggunakan Cookie minimum untuk pengalaman penjelajahan yang lebih baik. Anda dapat menyimpan pilihan di perangkat ini tanpa membuka jendela pop-up.</p><form class="cookie-form" id="cookie-form"><fieldset><legend>Kuki esensial</legend><p>Diperlukan agar situs dan pilihan dasar dapat berfungsi. Kategori ini selalu aktif.</p><label><input type="checkbox" checked disabled /> Selalu aktif</label></fieldset><fieldset><legend>Kuki analitik</legend><p>Membantu memahami penggunaan situs secara anonim melalui Google Analytics. Skrip analitik hanya dimuat setelah Anda mengizinkannya.</p><label><input type="checkbox" id="analytics-consent" /> Izinkan analitik</label></fieldset><fieldset><legend>Kuki preferensi</legend><p>Mengingat pengaturan seperti preferensi Cookie di perangkat ini.</p><label><input type="checkbox" id="preferences-consent" checked /> Simpan preferensi</label></fieldset><button class="button button-dark" type="submit">Simpan preferensi</button><button class="text-button" type="button" id="reject-all">Tolak semua yang opsional</button><p class="form-status" id="cookie-status" role="status" aria-live="polite"></p></form></main>
   <script is:inline>
     const form = document.querySelector('#cookie-form');

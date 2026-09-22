@@ -4,6 +4,7 @@
  * 共同服务于庄重阅读；不得转写为通用旅游模板或商业推荐页面。
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_NAME } from "../data/site";
 
 const heroImage = "/bali-memorial-jonathan-liem.jpg";
 const detailImage = "/bali-memorial-ken-eckert.jpg";
@@ -87,14 +88,14 @@ const facilities = [
 ---
 
 <BaseLayout
-  title="Monumen Ground Zero Bali — Panduan Memori & Kunjungan"
-  description="Panduan independen dan nonkomersial untuk memahami Monumen Ground Zero Bali di Jalan Legian, Kuta: sejarah, etika kunjungan, transportasi, fasilitas, peta, dan sumber publik."
+  title={SITE_NAME}
+  description="Monumen Ground Zero Bali di Jalan Legian, Kuta — panduan independen & nonkomersial: lokasi, sejarah Bom Bali 2002, etika kunjungan, rute transportasi, fasilitas sekitar, dan peta."
   image={heroImage}
 >
   <header class="site-header" id="atas">
     <a class="wordmark" href="#atas" aria-label="Monumen Ground Zero Bali, kembali ke atas">
       <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8C22 16 18 27 18 43h28C46 27 42 16 32 8Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M32 14v29M24 41h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-      <span><strong>Monumen Ground Zero Bali</strong><small>Panduan memori · Kuta</small></span>
+      <span><strong>Monumen Ground Zero Bali</strong><small>Panduan Wisata · Kuta</small></span>
     </a>
     <nav aria-label="Navigasi halaman">
       <a href="#sejarah">Sejarah</a>
@@ -278,10 +279,20 @@ const facilities = [
         <a href="https://www.nma.gov.au/defining-moments/resources/bali-bombings" target="_blank" rel="noreferrer"><span>ARSIP MUSEUM</span><strong>National Museum of Australia</strong><p>Konteks sejarah, dampak lintas negara, serta perjalanan memorialisasi.</p><i>↗</i></a>
       </div>
     </section>
+
+    <section class="sources-section section-shell" aria-labelledby="lanjutan-title">
+      <div class="section-index" aria-hidden="true"><span>10</span><i></i><small>LAINNYA</small></div>
+      <div class="section-heading"><p class="kicker">Bacaan lanjutan</p><h2 id="lanjutan-title">Perluas<br />pemahaman.</h2></div>
+      <div class="rel-grid">
+        <a href="/sejarah"><span>SEJARAH</span><strong>Sejarah Bom Bali 2002</strong><p>Mengapa monumen ini berdiri di Legian: tragedi 12 Oktober 2002, prasasti nama korban, dan makna perdamaian.</p><i>↗</i></a>
+        <a href="/transportasi"><span>TRANSPORTASI</span><strong>Cara ke Monumen</strong><p>Rute dari Bandara Ngurah Rai, taksi resmi, transportasi aplikasi, serta titik turun aman di Jalan Legian.</p><i>↗</i></a>
+        <a href="/sekitar"><span>SEKITAR</span><strong>Kuta & Legian</strong><p>Pantai Kuta, kawasan Legian, dan koridor Jalan Legian sebagai ruang wisata sekaligus ruang memori.</p><i>↗</i></a>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="footer-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8C22 16 18 27 18 43h28C46 27 42 16 32 8Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M32 14v29M24 41h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Monumen Ground Zero Bali<br /><small>Panduan memori · Kuta</small></span></div>
+    <div class="footer-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8C22 16 18 27 18 43h28C46 27 42 16 32 8Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M32 14v29M24 41h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Monumen Ground Zero Bali<br /><small>Panduan Wisata · Kuta</small></span></div>
     <div class="footer-copy"><p>Website ini merupakan proyek panduan informasi pengunjung independen dan non-profit, tanpa afiliasi dengan pemerintah, pengelola resmi, atau organisasi komersial mana pun.</p><p>Informasi tempat dirujuk dari materi publik Pemerintah Kabupaten Badung, sumber pariwisata nasional Indonesia, Google Maps, serta arsip museum; tidak memuat rekomendasi komersial.</p></div>
     <div class="footer-meta"><nav><a href="/privacy-policy">Kebijakan Privasi</a><a href="/terms-of-service">Ketentuan Layanan</a><a href="/cookie-settings">Pengaturan Kuki</a></nav><p>Foto situs: hak cipta berada pada fotografer asal sesuai lisensi yang dicantumkan.</p><p>© 2026 Panduan Monumen Ground Zero Bali. Hak cipta dilindungi.</p></div>
   </footer>

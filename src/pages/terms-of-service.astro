@@ -1,7 +1,8 @@
 ---
 /** 设计提醒：独立法务页面保持纪念站的清晰、克制阅读，不使用弹窗。 */
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withSiteName } from "../data/site";
 ---
-<BaseLayout title="Ketentuan Layanan — Monumen Ground Zero Bali" description="Ketentuan layanan untuk Panduan Monumen Ground Zero Bali.">
+<BaseLayout title={withSiteName("Ketentuan Layanan")} description="Ketentuan layanan untuk Panduan Monumen Ground Zero Bali.">
   <main class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Dokumen kebijakan</p><h1>Ketentuan Layanan</h1><p class="legal-date">Terakhir diperbarui: Agustus 2026</p><p class="legal-lede">Dengan mengakses dan menggunakan situs ini, Anda menyetujui ketentuan berikut. Situs ini adalah panduan informasi independen, bukan kanal resmi pengelola monumen.</p><section><h2>Penggunaan konten</h2><p>Seluruh informasi disediakan untuk tujuan referensi dan pendidikan. Kami adalah proyek panduan wisata independen pihak ketiga dan tidak berafiliasi dengan objek wisata, pemerintah, atau operator komersial mana pun.</p></section><section><h2>Ketepatan informasi</h2><p>Kami berupaya menyajikan informasi yang akurat dan terkini, tetapi tidak menjamin kelengkapan maupun ketepatannya. Rute, kondisi, akses, dan layanan dapat berubah tanpa pemberitahuan; periksa informasi penting melalui sumber resmi sebelum berangkat.</p></section><section><h2>Hak kekayaan intelektual</h2><p>Desain dan konten asli situs dilindungi hak cipta. Foto ditampilkan sesuai lisensi serta atribusi masing-masing fotografer. Data Google Maps digunakan sesuai ketentuan layanan Google.</p></section><section><h2>Batasan tanggung jawab</h2><p>Situs disediakan sebagaimana adanya tanpa jaminan. Kami tidak bertanggung jawab atas kerugian yang timbul dari penggunaan informasi ini, termasuk keputusan perjalanan yang diambil berdasarkan situs.</p></section></main>
 </BaseLayout>

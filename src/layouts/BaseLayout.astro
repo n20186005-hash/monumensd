@@ -3,6 +3,7 @@
  * 设计提醒：布局保持“石碑与静默”的克制、单语印尼语与石材阅读感；不使用通用旅游推广口吻。
  */
 import "../styles/global.css";
+import { SITE_NAME } from "../data/site";
 
 interface Props {
   title: string;
@@ -27,6 +28,7 @@ const shareImage = configuredSite && image ? new URL(image, `${configuredSite}/`
     {canonical && <link rel="canonical" href={canonical} />}
     {noIndex && <meta name="robots" content="noindex,nofollow" />}
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}

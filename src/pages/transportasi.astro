@@ -1,0 +1,76 @@
+---
+/**
+ * 设计提醒：子页保持纪念站的克制、非商业、可核验语气；不杜撰 tarif resmi atau jam operasional.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withSiteName } from "../data/site";
+
+const heroImage = "/bali-memorial-ken-eckert.jpg";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Bagaimana cara ke Monumen Ground Zero Bali dari bandara?",
+      acceptedAnswer: { "@type": "Answer", text: "Gunakan taksi resmi bandara, taksi berizin, kendaraan sewaan dengan pengemudi, atau transportasi berbasis aplikasi sesuai aturan zona jemput. Waktu tempuh bergantung lalu lintas menuju Kuta dan Legian." }
+    },
+    {
+      "@type": "Question",
+      name: "Apakah ada angkutan umum ke monumen?",
+      acceptedAnswer: { "@type": "Answer", text: "Rute, halte, dan pola layanan dapat berubah. Periksa jaringan transportasi Bali yang aktif pada hari perjalanan, lalu siapkan sambungan jalan kaki atau kendaraan lokal untuk bagian akhir menuju Jalan Legian." }
+    },
+    {
+      "@type": "Question",
+      name: "Di mana titik turun terbaik?",
+      acceptedAnswer: { "@type": "Answer", text: "Konfirmasikan titik antar-jemput dan estimasi biaya sebelum berangkat. Jangan berhenti di lajur sibuk atau menghalangi jalur pejalan kaki di sekitar memorial." }
+    },
+    {
+      "@type": "Question",
+      name: "Apakah tersedia parkir?",
+      acceptedAnswer: { "@type": "Answer", text: "Jalan Legian ramai, terutama pada jam sibuk. Parkir khusus memorial tidak kami pastikan; gunakan fasilitas umum legal, patuhi rambu, dan sisihkan waktu untuk berjalan kaki." }
+    }
+  ]
+};
+---
+<BaseLayout
+  title={withSiteName("Cara ke Monumen")}
+  description="Rute ke Monumen Ground Zero Bali di Jalan Legian, Kuta: dari Bandara Ngurah Rai, taksi resmi, transportasi aplikasi, serta tips titik turun dan parkir di koridor Legian."
+  image={heroImage}
+>
+  <main class="legal-page">
+    <a class="legal-back" href="/">← Kembali ke panduan</a>
+    <p class="kicker">Transportasi rinci</p>
+    <h1>Cara ke Monumen</h1>
+    <p class="legal-lede">Monumen berada di koridor Jalan Legian yang aktif. Rencanakan rute dan titik turun sebelum berangkat.</p>
+
+    <section>
+      <h2>Dari Bandara I Gusti Ngurah Rai</h2>
+      <p>Gunakan taksi resmi bandara, taksi berizin, kendaraan sewaan dengan pengemudi, atau transportasi berbasis aplikasi sesuai aturan zona jemput. Waktu perjalanan berubah mengikuti lalu lintas menuju Kuta dan Legian.</p>
+    </section>
+
+    <section>
+      <h2>Angkutan umum & sambungan akhir</h2>
+      <p>Rute, halte, dan pola layanan dapat berubah. Periksa jaringan transportasi Bali yang aktif pada hari perjalanan, lalu siapkan sambungan jalan kaki atau kendaraan lokal untuk bagian akhir menuju monumen.</p>
+    </section>
+
+    <section>
+      <h2>Turun di titik yang aman</h2>
+      <p>Konfirmasikan titik antar-jemput dan estimasi biaya sebelum berangkat. Jangan berhenti di lajur sibuk atau menghalangi jalur pejalan kaki di sekitar memorial.</p>
+    </section>
+
+    <section>
+      <h2>Parkir & arus</h2>
+      <p>Jalan Legian ramai, terutama pada jam sibuk. Parkir khusus memorial tidak kami pastikan; gunakan fasilitas umum legal, patuhi rambu, dan sisihkan waktu untuk berjalan kaki dari titik parkir ke monumen.</p>
+    </section>
+
+    <nav class="subpage-nav" aria-label="Halaman terkait">
+      <a href="/sejarah">Sejarah Bom Bali 2002 →</a>
+      <a href="/sekitar">Sekitar Kuta & Legian →</a>
+      <a href="/">Kembali ke panduan utama →</a>
+    </nav>
+  </main>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+</BaseLayout>

@@ -1,0 +1,81 @@
+---
+/**
+ * 设计提醒：子页保持纪念站的克制、非商业、可核验语气；不杜撰未证实的开放时间或票价。
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withSiteName } from "../data/site";
+
+const heroImage = "/bali-memorial-jonathan-liem.jpg";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Apa itu Monumen Ground Zero Bali?",
+      acceptedAnswer: { "@type": "Answer", text: "Monumen peringatan di Jalan Legian, Kuta, yang mengenang korban tragedi Bom Bali I pada 12 Oktober 2002. Sumber pariwisata nasional Indonesia juga menyebutnya Monumen Bom Bali I." }
+    },
+    {
+      "@type": "Question",
+      name: "Kapan dan mengapa monumen ini dibangun?",
+      acceptedAnswer: { "@type": "Answer", text: "Monumen hadir di lokasi yang berkaitan dengan peristiwa 12 Oktober 2002 untuk menghormati korban dan keluarga yang ditinggalkan. Pemerintah Kabupaten Badung menggunakan lokasi ini untuk doa perdamaian." }
+    },
+    {
+      "@type": "Question",
+      name: "Siapa saja yang tercantum pada prasasti?",
+      acceptedAnswer: { "@type": "Answer", text: "Sumber pariwisata Indonesia mencatat 202 orang dari 22 negara meninggal; nama serta kewarganegaraan mereka tercantum pada prasasti monumen. Kami merujuk pada materi publik, bukan menambah data sendiri." }
+    },
+    {
+      "@type": "Question",
+      name: "Apa makna 'Ground Zero' dan 'Panca Benua'?",
+      acceptedAnswer: { "@type": "Answer", text: "Monumen ini juga dikenal sebagai Monumen Panca Benua atau Ground Zero Bali. Bentuk gunungan dan daftar nama menjadikannya ruang peringatan lintas bangsa." }
+    }
+  ]
+};
+---
+<BaseLayout
+  title={withSiteName("Sejarah Bom Bali 2002")}
+  description="Mengapa Monumen Ground Zero Bali berdiri di Legian: tragedi 12 Oktober 2002, prasasti nama korban dari 22 negara, bentuk gunungan, dan makna perdamaian."
+  image={heroImage}
+>
+  <main class="legal-page">
+    <a class="legal-back" href="/">← Kembali ke panduan</a>
+    <p class="kicker">Sejarah & konteks</p>
+    <h1>Sejarah Bom Bali 2002</h1>
+    <p class="legal-lede">Monumen Ground Zero Bali berdiri di Jalan Legian, Kuta, untuk mengenang korban tragedi Bom Bali I pada 12 Oktober 2002.</p>
+
+    <section>
+      <h2>Tragedi di kawasan Legian</h2>
+      <p>Ledakan terjadi di kawasan Kuta–Legian pada 12 Oktober 2002. Sumber pariwisata nasional Indonesia mencatat 202 orang dari 22 negara meninggal. Monumen kemudian hadir di lokasi yang berkaitan dengan peristiwa tersebut untuk menghormati korban serta keluarga yang ditinggalkan.</p>
+    </section>
+
+    <section>
+      <h2>Monumen Panca Benua</h2>
+      <p>Monumen ini juga dikenal sebagai Monumen Panca Benua atau Ground Zero Bali. Bagian tengahnya menyerupai <em>gunungan</em>, simbol dalam tradisi wayang yang kerap dipahami sebagai lambang alam semesta. Di bawahnya terdapat prasasti nama-nama korban.</p>
+    </section>
+
+    <figure class="monument-figure">
+      <img src={heroImage} alt="Monumen Ground Zero Bali di Kuta dengan relief batu dan daftar nama korban" loading="lazy" />
+      <figcaption>Foto: Jonathan Liem / Wikimedia Commons · domain publik</figcaption>
+    </figure>
+
+    <section>
+      <h2>Memelihara perdamaian</h2>
+      <p>Pemerintah Kabupaten Badung menggunakan lokasi ini untuk doa perdamaian dan mengenang korban. Kunjungan yang baik memberi tempat bagi hening, empati, serta toleransi. Bacalah prasasti dengan pelan; hindari menyentuh, menaiki, atau menghalangi orang lain yang sedang memberi penghormatan.</p>
+    </section>
+
+    <section>
+      <h2>Sumber yang kami rujuk</h2>
+      <p>Penjelasan di halaman ini merujuk materi publik Pemerintah Kabupaten Badung, sumber pariwisata nasional Indonesia, serta arsip museum. Kami tidak menambahkan angka atau klaim di luar sumber tersebut.</p>
+    </section>
+
+    <nav class="subpage-nav" aria-label="Halaman terkait">
+      <a href="/transportasi">Cara ke Monumen →</a>
+      <a href="/sekitar">Sekitar Kuta & Legian →</a>
+      <a href="/">Kembali ke panduan utama →</a>
+    </nav>
+  </main>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+</BaseLayout>

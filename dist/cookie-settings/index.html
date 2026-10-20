@@ -1,34 +1,37 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#151617"><meta name="description" content="Pengaturan Cookie untuk Panduan Monumen Ground Zero Bali."><meta property="og:type" content="website"><meta property="og:title" content="Pengaturan Kuki — Monumen Ground Zero Bali"><meta property="og:description" content="Pengaturan Cookie untuk Panduan Monumen Ground Zero Bali."><meta name="twitter:card" content="summary"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"><link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><title>Pengaturan Kuki — Monumen Ground Zero Bali</title><link rel="stylesheet" href="/_astro/BaseLayout.BYUGG1dN.css"></head><body><a class="skip-link" href="#konten">Lewati ke isi utama</a><main class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Preferensi</p><h1>Pengaturan Kuki</h1><p class="legal-date">Terakhir diperbarui: Agustus 2026</p><p class="legal-lede">Kami menggunakan Cookie minimum untuk pengalaman penjelajahan yang lebih baik. Anda dapat menyimpan pilihan di perangkat ini tanpa membuka jendela pop-up.</p><form class="cookie-form" id="cookie-form"><fieldset><legend>Kuki esensial</legend><p>Diperlukan agar situs dan pilihan dasar dapat berfungsi. Kategori ini selalu aktif.</p><label><input type="checkbox" checked disabled> Selalu aktif</label></fieldset><fieldset><legend>Kuki analitik</legend><p>Membantu memahami penggunaan situs secara anonim melalui Google Analytics. Skrip analitik hanya dimuat setelah Anda mengizinkannya.</p><label><input type="checkbox" id="analytics-consent"> Izinkan analitik</label></fieldset><fieldset><legend>Kuki preferensi</legend><p>Mengingat pengaturan seperti preferensi Cookie di perangkat ini.</p><label><input type="checkbox" id="preferences-consent" checked> Simpan preferensi</label></fieldset><button class="button button-dark" type="submit">Simpan preferensi</button><button class="text-button" type="button" id="reject-all">Tolak semua yang opsional</button><p class="form-status" id="cookie-status" role="status" aria-live="polite"></p></form></main><script>
-    const form = document.querySelector('#cookie-form');
-    const analytics = document.querySelector('#analytics-consent');
-    const preferences = document.querySelector('#preferences-consent');
-    const status = document.querySelector('#cookie-status');
-    const saved = JSON.parse(localStorage.getItem('memorial-cookie-preferences') || '{}');
-    analytics.checked = Boolean(saved.analytics);
-    preferences.checked = saved.preferences !== false;
-    function loadAnalytics() {
-      if (window.__memorialAnalyticsLoaded) return;
-      window.__memorialAnalyticsLoaded = true;
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
-      document.head.appendChild(script);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HXM22WWPKP');
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#151617"><meta name="description" content="Izinkan atau tolak Google Analytics opsional pada perangkat ini."><link rel="canonical" href="https://monumensd.com/cookie-settings"><meta property="og:locale" content="id_ID"><meta property="og:type" content="website"><meta property="og:site_name" content="Monumen Ground Zero Bali, Kuta — Panduan Wisata"><meta property="og:title" content="Pengaturan Kuki | Monumen Ground Zero Bali"><meta property="og:description" content="Izinkan atau tolak Google Analytics opsional pada perangkat ini."><meta property="og:url" content="https://monumensd.com/cookie-settings"><meta name="twitter:title" content="Pengaturan Kuki | Monumen Ground Zero Bali"><meta name="twitter:description" content="Izinkan atau tolak Google Analytics opsional pada perangkat ini."><meta name="twitter:card" content="summary"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"><link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><title>Pengaturan Kuki | Monumen Ground Zero Bali</title><link rel="stylesheet" href="/_astro/BaseLayout.d9lMt53u.css"></head><body><a class="skip-link" href="#konten">Lewati ke isi utama</a><header class="site-header" id="atas"><a class="wordmark" href="/"><span><strong>Monumen Ground Zero Bali</strong><small>Panduan independen · Kuta</small></span></a><nav aria-label="Navigasi utama"><a href="/sejarah">Sejarah</a><a href="/#kunjungan">Kunjungan</a><a href="/transportasi">Transportasi</a><a href="/sekitar">Sekitar</a><a href="/#faq">Tanya jawab</a></nav><a class="nav-action" href="/#peta">Lihat peta ↓</a></header><main id="konten" class="legal-page"><h1>Pengaturan Kuki</h1><p class="legal-date">19 Oktober 2026</p><p class="legal-lede">Analitik nonaktif secara bawaan. Pilihan disimpan hanya pada peramban ini; peta Google di beranda adalah layanan terpisah.</p><form id="cookie-form" class="cookie-form"><fieldset><legend>Analitik opsional</legend><p>Izinkan Google Analytics mengukur penggunaan situs. Tidak ada pilihan pemasaran atau akun pengguna.</p><label><input type="checkbox" id="analytics-consent"> Izinkan Google Analytics</label></fieldset><button type="submit" class="button button-dark">Simpan pilihan</button><button type="button" id="reject-all" class="text-button">Tolak / tarik izin analitik</button><p id="cookie-status" role="status" aria-live="polite"></p></form><p><a href="/privacy-policy">Baca Kebijakan Privasi</a></p></main><script>
+(() => {
+  const key = 'memorial-cookie-preferences';
+  const form = document.getElementById('cookie-form');
+  const checkbox = document.getElementById('analytics-consent');
+  const status = document.getElementById('cookie-status');
+  const deniedKey = 'memorial-analytics-denied';
+  try { checkbox.checked = sessionStorage.getItem(deniedKey) !== '1' && JSON.parse(localStorage.getItem(key) || '{}')?.analytics === true; } catch { checkbox.checked = false; }
+  function denyForSession() {
+    window.__memorialAnalyticsDenied = true;
+    window['ga-disable-G-HXM22WWPKP'] = true;
+    try { sessionStorage.setItem(deniedKey, '1'); return true; } catch { return false; }
+  }
+  function save(value) {
+    let sessionDenied = false;
+    if (!value) sessionDenied = denyForSession();
+    try {
+      localStorage.setItem(key, JSON.stringify({ analytics: value }));
+      if (value) {
+        sessionStorage.removeItem(deniedKey);
+        window.__memorialAnalyticsDenied = false;
+      }
+      checkbox.checked = value;
+      status.textContent = value ? 'Analitik diizinkan pada peramban ini.' : 'Analitik ditolak pada peramban ini.';
+    } catch {
+      sessionDenied = denyForSession() || sessionDenied;
+      checkbox.checked = false;
+      status.textContent = sessionDenied
+        ? 'Analitik dinonaktifkan untuk tab ini, termasuk saat berpindah halaman atau memuat ulang. Pilihan permanen tidak dapat disimpan; pilihan lama mungkin masih tersimpan. Hapus data situs melalui pengaturan peramban untuk menarik izin tersimpan.'
+        : 'Analitik dinonaktifkan pada halaman ini. Penyimpanan pilihan tidak tersedia; hapus data situs melalui pengaturan peramban sebelum berpindah atau memuat ulang.';
     }
-    if (analytics.checked) loadAnalytics();
-    form?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      localStorage.setItem('memorial-cookie-preferences', JSON.stringify({ analytics: analytics.checked, preferences: preferences.checked }));
-      if (analytics.checked) loadAnalytics();
-      status.textContent = 'Preferensi Anda telah disimpan pada perangkat ini.';
-    });
-    document.querySelector('#reject-all')?.addEventListener('click', () => {
-      analytics.checked = false;
-      preferences.checked = false;
-      localStorage.setItem('memorial-cookie-preferences', JSON.stringify({ analytics: false, preferences: false }));
-      status.textContent = 'Cookie opsional telah ditolak untuk perangkat ini.';
-    });
-  </script></body></html>
+    window.dispatchEvent(new Event('memorial:consent'));
+  }
+  form.addEventListener('submit', event => { event.preventDefault(); save(checkbox.checked === true); });
+  document.getElementById('reject-all').addEventListener('click', () => save(false));
+})();
+</script><footer class="site-footer"><div class="footer-brand">Monumen Ground Zero Bali</div><div class="footer-copy"><p>Panduan independen, bukan situs pemerintah atau pengelola memorial. Tidak melayani pemesanan.</p><p><a href="/#sumber">Sumber publik & kredit foto</a> · Informasi diperiksa 19 Oktober 2026. Akses, biaya, dan kondisi perlu dikonfirmasi.</p></div><div class="footer-meta"><nav aria-label="Dokumen situs"><a href="/privacy-policy">Kebijakan Privasi</a><a href="/terms-of-service">Ketentuan Layanan</a><a href="/cookie-settings">Pengaturan Kuki</a></nav><p>© 2026 Panduan Monumen Ground Zero Bali. Lisensi foto mengikuti masing-masing sumber.</p></div></footer><script src="/consent.js"></script></body></html>

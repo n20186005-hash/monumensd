@@ -1,0 +1,5 @@
+---
+interface Props { items: { name: string; acceptedAnswer: { text: string } }[]; }
+const { items } = Astro.props;
+---
+<div class="faq-list">{items.map((item, index) => <details><summary><span>{String(index + 1).padStart(2, '0')}</span>{item.name}</summary><p>{item.acceptedAnswer.text}</p></details>)}</div>

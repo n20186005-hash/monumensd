@@ -13,7 +13,7 @@ export default defineConfig({
   site,
   output: "static",
   trailingSlash: "never",
-  integrations: site ? [sitemap()] : [],
+  integrations: site ? [sitemap({ filter: (page) => !page.endsWith("/404") && !page.endsWith("/404/") })] : [],
   vite: {
     plugins: [tailwindcss()],
   },

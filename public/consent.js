@@ -1,7 +1,12 @@
 (() => {
   const key = 'memorial-cookie-preferences';
   const id = 'G-HXM22WWPKP';
-  function allowed() { try { return JSON.parse(localStorage.getItem(key) || '{}')?.analytics === true; } catch { return false; } }
+  function allowed() {
+    try {
+      if (window.__memorialAnalyticsDenied || sessionStorage.getItem('memorial-analytics-denied') === '1') return false;
+      return JSON.parse(localStorage.getItem(key) || '{}')?.analytics === true;
+    } catch { return false; }
+  }
   function apply() {
     const consent = allowed();
     window['ga-disable-' + id] = !consent;
@@ -12,7 +17,7 @@
           for (const domain of ['', '; domain=' + location.hostname, '; domain=.monumensd.com']) document.cookie = name + '=; Max-Age=0; path=/' + domain;
         }
       }
-      if (window.__memorialAnalyticsLoaded) location.reload();
+      if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'denied' });
       return;
     }
     if (window.__memorialAnalyticsLoaded) return;

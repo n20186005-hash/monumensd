@@ -1,76 +1,11 @@
 ---
-/**
- * 设计提醒：子页保持纪念站的克制、非商业、可核验语气； tidak merekomendasikan pelaku usaha tertentu.
- */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withSiteName } from "../data/site";
-
-const heroImage = "/bali-memorial-jonathan-liem.jpg";
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Apa saja yang ada di sekitar monumen?",
-      acceptedAnswer: { "@type": "Answer", text: "Kawasan sekitar meliputi Pantai Kuta, kawasan Legian, serta koridor Jalan Legian yang ramai. Monumen berada di tengah ruang wisata sekaligus ruang memori." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah Pantai Kuta dekat dari monumen?",
-      acceptedAnswer: { "@type": "Answer", text: "Pantai dan jalur pesisir di kawasan Kuta dapat menjadi kelanjutan rute berjalan kaki dari monumen. Perhatikan panas, ombak, dan kepadatan lalu lintas saat berpindah." }
-    },
-    {
-      "@type": "Question",
-      name: "Apa yang ditawarkan kawasan Legian?",
-      acceptedAnswer: { "@type": "Answer", text: "Area Legian menawarkan hubungan langsung antara koridor jalan, pantai, serta kawasan akomodasi. Gunakan trotoar dan titik penyeberangan yang aman." }
-    },
-    {
-      "@type": "Question",
-      name: "Bagaimana menjelajah dengan hormat?",
-      acceptedAnswer: { "@type": "Answer", text: "Berikan jarak pada aktivitas lokal, rambu, serta pergerakan pejalan kaki. Jangan mengganggu orang yang sedang berdoa atau mengenang di monumen." }
-    }
-  ]
-};
+import Faq from "../components/Faq.astro";
+const faqSchema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Apakah Pantai Kuta termasuk area memorial?", "acceptedAnswer": {"@type": "Answer", "text": "Tidak. Indonesia.travel mencantumkan Pantai Kuta sebagai tujuan tersendiri. Alamat, akses, kondisi pantai, dan transportasinya perlu diperiksa secara terpisah."}}, {"@type": "Question", "name": "Apakah ada jalur langsung ke Pantai Legian?", "acceptedAnswer": {"@type": "Answer", "text": "Pantai Legian dapat dipertimbangkan sebagai tujuan terpisah, tetapi panduan ini belum memverifikasi jalur penghubung, jarak berjalan, atau kondisi akses dari memorial. Jangan menganggap ada koridor langsung."}}, {"@type": "Question", "name": "Apakah fasilitas sekitar dijamin tersedia?", "acceptedAnswer": {"@type": "Answer", "text": "Tidak. Untuk makan, toilet, ATM, penginapan, bahan bakar, atau pengisian kendaraan, periksa lokasi dan jam layanan penyedia. Kami tidak memastikan fasilitas tersebut tersedia di memorial."}}, {"@type": "Question", "name": "Apakah satu izin atau biaya mencakup tujuan sekitar?", "acceptedAnswer": {"@type": "Answer", "text": "Tidak ada tiket gabungan, biaya, atau izin lintas tempat yang kami verifikasi. Konfirmasikan setiap tujuan dan layanan secara terpisah sebelum berangkat."}}]};
 ---
-<BaseLayout
-  title={withSiteName("Sekitar Kuta & Legian")}
-  description="Kawasan di sekitar Monumen Ground Zero Bali: Pantai Kuta, kawasan Legian, dan koridor Jalan Legian sebagai ruang wisata sekaligus ruang memori di Bali."
-  image={heroImage}
->
-  <main class="legal-page">
-    <a class="legal-back" href="/">← Kembali ke panduan</a>
-    <p class="kicker">Kawasan sekitar</p>
-    <h1>Sekitar Kuta & Legian</h1>
-    <p class="legal-lede">Monumen berada di tengah koridor Jalan Legian yang hidup. Lanjutkan menjelajah dengan sadar, bukan terburu-buru.</p>
-
-    <section>
-      <h2>Pantai Kuta</h2>
-      <p>Pantai dan jalur pesisir di kawasan Kuta dapat menjadi kelanjutan rute berjalan kaki dari monumen. Perhatikan panas, ombak, dan kepadatan lalu lintas saat berpindah.</p>
-    </section>
-
-    <section>
-      <h2>Kawasan Legian</h2>
-      <p>Area Legian menawarkan hubungan langsung antara koridor jalan, pantai, serta kawasan akomodasi. Gunakan trotoar dan titik penyeberangan yang aman.</p>
-    </section>
-
-    <section>
-      <h2>Jalan Legian & Kuta</h2>
-      <p>Koridor ini memperlihatkan perubahan Kuta sebagai ruang wisata, kerja, dan memori. Beri jarak pada aktivitas lokal, rambu, serta pergerakan pejalan kaki.</p>
-    </section>
-
-    <section>
-      <h2>Menjelajah dengan hormat</h2>
-      <p>Monumen adalah ruang mengenang, bukan ruang hiburan. Jangan mengganggu orang yang sedang berdoa dan mengenang; jaga suara, dan biarkan prasasti tetap dapat dibaca oleh siapa pun.</p>
-    </section>
-
-    <nav class="subpage-nav" aria-label="Halaman terkait">
-      <a href="/sejarah">Sejarah Bom Bali 2002 →</a>
-      <a href="/transportasi">Cara ke Monumen →</a>
-      <a href="/">Kembali ke panduan utama →</a>
-    </nav>
-  </main>
-
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
-</BaseLayout>
+<BaseLayout title="Sekitar Memorial: Kuta & Legian" description="Pisahkan kunjungan memorial dari tujuan lain di Kuta dan Legian; periksa alamat, akses, serta layanan sendiri." image="/bali-memorial-jonathan-liem.jpg">
+<main id="konten" class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Panduan independen · Kuta</p><h1>Sekitar Memorial: Kuta & Legian</h1><p class="legal-lede">Pisahkan kunjungan memorial dari tujuan lain di Kuta dan Legian; periksa alamat, akses, serta layanan sendiri.</p>
+<h2>Tanya jawab</h2><Faq items={faqSchema.mainEntity} />
+<section><h2>Sumber dan batas informasi</h2><p><a href="https://www.indonesia.travel/in/en/destination/bali-nusa-tenggara/bali/monumen-ground-zero/">Indonesia.travel: Monumen Ground Zero</a> · <a href="https://badungkab.go.id/index.php/kab/berita/75808-peringatan-24-tahun-tragedi-bom-bali-badung-gaungkan-perdamaian-dan-toleransi">Pemerintah Badung: laporan doa 12 Oktober 2026</a> · <a href="https://www.indonesia.travel/id/id/destination/bali-nusa-tenggara/bali/pantai-kuta">Indonesia.travel: Pantai Kuta</a>. Informasi perjalanan diperiksa 19 Oktober 2026. <a href="/#peta">Cuplikan lokasi Google Maps</a> bukan izin akses atau jadwal pengelola.</p></section>
+<nav class="subpage-nav" aria-label="Panduan terkait"><a href="/sejarah">Sejarah</a><a href="/transportasi">Transportasi</a><a href="/sekitar">Sekitar</a><a href="/#sumber">Sumber & foto</a></nav></main>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script></BaseLayout>

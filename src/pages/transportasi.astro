@@ -1,76 +1,11 @@
 ---
-/**
- * 设计提醒：子页保持纪念站的克制、非商业、可核验语气；不杜撰 tarif resmi atau jam operasional.
- */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withSiteName } from "../data/site";
-
-const heroImage = "/bali-memorial-ken-eckert.jpg";
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Bagaimana cara ke Monumen Ground Zero Bali dari bandara?",
-      acceptedAnswer: { "@type": "Answer", text: "Gunakan taksi resmi bandara, taksi berizin, kendaraan sewaan dengan pengemudi, atau transportasi berbasis aplikasi sesuai aturan zona jemput. Waktu tempuh bergantung lalu lintas menuju Kuta dan Legian." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah ada angkutan umum ke monumen?",
-      acceptedAnswer: { "@type": "Answer", text: "Rute, halte, dan pola layanan dapat berubah. Periksa jaringan transportasi Bali yang aktif pada hari perjalanan, lalu siapkan sambungan jalan kaki atau kendaraan lokal untuk bagian akhir menuju Jalan Legian." }
-    },
-    {
-      "@type": "Question",
-      name: "Di mana titik turun terbaik?",
-      acceptedAnswer: { "@type": "Answer", text: "Konfirmasikan titik antar-jemput dan estimasi biaya sebelum berangkat. Jangan berhenti di lajur sibuk atau menghalangi jalur pejalan kaki di sekitar memorial." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah tersedia parkir?",
-      acceptedAnswer: { "@type": "Answer", text: "Jalan Legian ramai, terutama pada jam sibuk. Parkir khusus memorial tidak kami pastikan; gunakan fasilitas umum legal, patuhi rambu, dan sisihkan waktu untuk berjalan kaki." }
-    }
-  ]
-};
+import Faq from "../components/Faq.astro";
+const faqSchema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Di mana tujuan yang perlu disebutkan kepada pengemudi?", "acceptedAnswer": {"@type": "Answer", "text": "Sebut Monumen Ground Zero Bali, Jalan Legian, Kuta, Badung, Bali 80361. Pin peta yang diperiksa 19 Oktober 2026 adalah -8.7172698, 115.17449; rute dan titik turun tetap perlu dikonfirmasi."}}, {"@type": "Question", "name": "Bagaimana merencanakan perjalanan dari bandara?", "acceptedAnswer": {"@type": "Answer", "text": "Tanyakan kepada penyedia transportasi tentang layanan yang tersedia, aturan zona jemput, tarif, serta titik turun menuju Jalan Legian. Panduan ini tidak menetapkan rute, layanan, atau durasi perjalanan tertentu."}}, {"@type": "Question", "name": "Apakah ada parkir atau rute berjalan kaki yang dipastikan?", "acceptedAnswer": {"@type": "Answer", "text": "Parkir khusus, fasilitas aksesibilitas, dan jalur pejalan kaki terus-menerus belum kami verifikasi. Periksa kondisi serta rambu; jangan menganggap titik pin sebagai izin kendaraan berhenti atau masuk ke memorial."}}, {"@type": "Question", "name": "Apakah dapat datang malam hari?", "acceptedAnswer": {"@type": "Answer", "text": "Jam operasional tidak tercantum pada Google Maps yang diperiksa 19 Oktober 2026. Konfirmasikan akses sebelum perjalanan, terutama jika datang setelah gelap. Tidak ada jaminan akses 24 jam."}}]};
 ---
-<BaseLayout
-  title={withSiteName("Cara ke Monumen")}
-  description="Rute ke Monumen Ground Zero Bali di Jalan Legian, Kuta: dari Bandara Ngurah Rai, taksi resmi, transportasi aplikasi, serta tips titik turun dan parkir di koridor Legian."
-  image={heroImage}
->
-  <main class="legal-page">
-    <a class="legal-back" href="/">← Kembali ke panduan</a>
-    <p class="kicker">Transportasi rinci</p>
-    <h1>Cara ke Monumen</h1>
-    <p class="legal-lede">Monumen berada di koridor Jalan Legian yang aktif. Rencanakan rute dan titik turun sebelum berangkat.</p>
-
-    <section>
-      <h2>Dari Bandara I Gusti Ngurah Rai</h2>
-      <p>Gunakan taksi resmi bandara, taksi berizin, kendaraan sewaan dengan pengemudi, atau transportasi berbasis aplikasi sesuai aturan zona jemput. Waktu perjalanan berubah mengikuti lalu lintas menuju Kuta dan Legian.</p>
-    </section>
-
-    <section>
-      <h2>Angkutan umum & sambungan akhir</h2>
-      <p>Rute, halte, dan pola layanan dapat berubah. Periksa jaringan transportasi Bali yang aktif pada hari perjalanan, lalu siapkan sambungan jalan kaki atau kendaraan lokal untuk bagian akhir menuju monumen.</p>
-    </section>
-
-    <section>
-      <h2>Turun di titik yang aman</h2>
-      <p>Konfirmasikan titik antar-jemput dan estimasi biaya sebelum berangkat. Jangan berhenti di lajur sibuk atau menghalangi jalur pejalan kaki di sekitar memorial.</p>
-    </section>
-
-    <section>
-      <h2>Parkir & arus</h2>
-      <p>Jalan Legian ramai, terutama pada jam sibuk. Parkir khusus memorial tidak kami pastikan; gunakan fasilitas umum legal, patuhi rambu, dan sisihkan waktu untuk berjalan kaki dari titik parkir ke monumen.</p>
-    </section>
-
-    <nav class="subpage-nav" aria-label="Halaman terkait">
-      <a href="/sejarah">Sejarah Bom Bali 2002 →</a>
-      <a href="/sekitar">Sekitar Kuta & Legian →</a>
-      <a href="/">Kembali ke panduan utama →</a>
-    </nav>
-  </main>
-
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
-</BaseLayout>
+<BaseLayout title="Cara ke Monumen Ground Zero, Kuta" description="Lokasi Jalan Legian dan persiapan transportasi ke memorial tanpa janji waktu tempuh atau fasilitas." image="/bali-memorial-jonathan-liem.jpg">
+<main id="konten" class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Panduan independen · Kuta</p><h1>Cara ke Monumen Ground Zero, Kuta</h1><p class="legal-lede">Lokasi Jalan Legian dan persiapan transportasi ke memorial tanpa janji waktu tempuh atau fasilitas.</p>
+<h2>Tanya jawab</h2><Faq items={faqSchema.mainEntity} />
+<section><h2>Sumber dan batas informasi</h2><p><a href="https://www.indonesia.travel/in/en/destination/bali-nusa-tenggara/bali/monumen-ground-zero/">Indonesia.travel: Monumen Ground Zero</a> · <a href="https://badungkab.go.id/index.php/kab/berita/75808-peringatan-24-tahun-tragedi-bom-bali-badung-gaungkan-perdamaian-dan-toleransi">Pemerintah Badung: laporan doa 12 Oktober 2026</a> · <a href="https://www.indonesia.travel/id/id/destination/bali-nusa-tenggara/bali/pantai-kuta">Indonesia.travel: Pantai Kuta</a>. Informasi perjalanan diperiksa 19 Oktober 2026. <a href="/#peta">Cuplikan lokasi Google Maps</a> bukan izin akses atau jadwal pengelola.</p></section>
+<nav class="subpage-nav" aria-label="Panduan terkait"><a href="/sejarah">Sejarah</a><a href="/transportasi">Transportasi</a><a href="/sekitar">Sekitar</a><a href="/#sumber">Sumber & foto</a></nav></main>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script></BaseLayout>

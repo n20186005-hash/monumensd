@@ -1,42 +1,29 @@
 ---
-/** 设计提醒：独立 Cookie 页面采用静态、可直达的偏好管理，不干扰纪念内容。 */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withSiteName } from "../data/site";
 ---
-<BaseLayout title={withSiteName("Pengaturan Kuki")} description="Pengaturan Cookie untuk Panduan Monumen Ground Zero Bali.">
-  <main class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Preferensi</p><h1>Pengaturan Kuki</h1><p class="legal-date">Terakhir diperbarui: Agustus 2026</p><p class="legal-lede">Kami menggunakan Cookie minimum untuk pengalaman penjelajahan yang lebih baik. Anda dapat menyimpan pilihan di perangkat ini tanpa membuka jendela pop-up.</p><form class="cookie-form" id="cookie-form"><fieldset><legend>Kuki esensial</legend><p>Diperlukan agar situs dan pilihan dasar dapat berfungsi. Kategori ini selalu aktif.</p><label><input type="checkbox" checked disabled /> Selalu aktif</label></fieldset><fieldset><legend>Kuki analitik</legend><p>Membantu memahami penggunaan situs secara anonim melalui Google Analytics. Skrip analitik hanya dimuat setelah Anda mengizinkannya.</p><label><input type="checkbox" id="analytics-consent" /> Izinkan analitik</label></fieldset><fieldset><legend>Kuki preferensi</legend><p>Mengingat pengaturan seperti preferensi Cookie di perangkat ini.</p><label><input type="checkbox" id="preferences-consent" checked /> Simpan preferensi</label></fieldset><button class="button button-dark" type="submit">Simpan preferensi</button><button class="text-button" type="button" id="reject-all">Tolak semua yang opsional</button><p class="form-status" id="cookie-status" role="status" aria-live="polite"></p></form></main>
-  <script is:inline>
-    const form = document.querySelector('#cookie-form');
-    const analytics = document.querySelector('#analytics-consent');
-    const preferences = document.querySelector('#preferences-consent');
-    const status = document.querySelector('#cookie-status');
-    const saved = JSON.parse(localStorage.getItem('memorial-cookie-preferences') || '{}');
-    analytics.checked = Boolean(saved.analytics);
-    preferences.checked = saved.preferences !== false;
-    function loadAnalytics() {
-      if (window.__memorialAnalyticsLoaded) return;
-      window.__memorialAnalyticsLoaded = true;
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
-      document.head.appendChild(script);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HXM22WWPKP');
+<BaseLayout title="Pengaturan Kuki | Monumen Ground Zero Bali" description="Izinkan atau tolak Google Analytics opsional pada perangkat ini.">
+<main id="konten" class="legal-page"><h1>Pengaturan Kuki</h1><p class="legal-date">19 Oktober 2026</p><p class="legal-lede">Analitik nonaktif secara bawaan. Pilihan disimpan hanya pada peramban ini; peta Google di beranda adalah layanan terpisah.</p><form id="cookie-form" class="cookie-form"><fieldset><legend>Analitik opsional</legend><p>Izinkan Google Analytics mengukur penggunaan situs. Tidak ada pilihan pemasaran atau akun pengguna.</p><label><input type="checkbox" id="analytics-consent" /> Izinkan Google Analytics</label></fieldset><button type="submit" class="button button-dark">Simpan pilihan</button><button type="button" id="reject-all" class="text-button">Tolak / tarik izin analitik</button><p id="cookie-status" role="status" aria-live="polite"></p></form><p><a href="/privacy-policy">Baca Kebijakan Privasi</a></p></main>
+<script is:inline>
+(() => {
+  const key = 'memorial-cookie-preferences';
+  const form = document.getElementById('cookie-form');
+  const checkbox = document.getElementById('analytics-consent');
+  const status = document.getElementById('cookie-status');
+  try { checkbox.checked = JSON.parse(localStorage.getItem(key) || '{}')?.analytics === true; } catch { checkbox.checked = false; }
+  function save(value) {
+    try {
+      localStorage.setItem(key, JSON.stringify({ analytics: value }));
+      checkbox.checked = value;
+      status.textContent = value ? 'Analitik diizinkan pada peramban ini.' : 'Analitik ditolak pada peramban ini.';
+      window.dispatchEvent(new Event('memorial:consent'));
+    } catch {
+      checkbox.checked = false;
+      window['ga-disable-G-HXM22WWPKP'] = true;
+      status.textContent = 'Pilihan tidak dapat disimpan. Analitik tidak diaktifkan. Hapus data situs melalui pengaturan peramban untuk menarik izin yang tersimpan.';
+      if (window.__memorialAnalyticsLoaded) location.reload();
     }
-    if (analytics.checked) loadAnalytics();
-    form?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      localStorage.setItem('memorial-cookie-preferences', JSON.stringify({ analytics: analytics.checked, preferences: preferences.checked }));
-      if (analytics.checked) loadAnalytics();
-      status.textContent = 'Preferensi Anda telah disimpan pada perangkat ini.';
-    });
-    document.querySelector('#reject-all')?.addEventListener('click', () => {
-      analytics.checked = false;
-      preferences.checked = false;
-      localStorage.setItem('memorial-cookie-preferences', JSON.stringify({ analytics: false, preferences: false }));
-      status.textContent = 'Cookie opsional telah ditolak untuk perangkat ini.';
-    });
-  </script>
-</BaseLayout>
+  }
+  form.addEventListener('submit', event => { event.preventDefault(); save(checkbox.checked === true); });
+  document.getElementById('reject-all').addEventListener('click', () => save(false));
+})();
+</script></BaseLayout>

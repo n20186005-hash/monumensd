@@ -1,81 +1,11 @@
 ---
-/**
- * 设计提醒：子页保持纪念站的克制、非商业、可核验语气；不杜撰未证实的开放时间或票价。
- */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withSiteName } from "../data/site";
-
-const heroImage = "/bali-memorial-jonathan-liem.jpg";
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Apa itu Monumen Ground Zero Bali?",
-      acceptedAnswer: { "@type": "Answer", text: "Monumen peringatan di Jalan Legian, Kuta, yang mengenang korban tragedi Bom Bali I pada 12 Oktober 2002. Sumber pariwisata nasional Indonesia juga menyebutnya Monumen Bom Bali I." }
-    },
-    {
-      "@type": "Question",
-      name: "Kapan dan mengapa monumen ini dibangun?",
-      acceptedAnswer: { "@type": "Answer", text: "Monumen hadir di lokasi yang berkaitan dengan peristiwa 12 Oktober 2002 untuk menghormati korban dan keluarga yang ditinggalkan. Pemerintah Kabupaten Badung menggunakan lokasi ini untuk doa perdamaian." }
-    },
-    {
-      "@type": "Question",
-      name: "Siapa saja yang tercantum pada prasasti?",
-      acceptedAnswer: { "@type": "Answer", text: "Sumber pariwisata Indonesia mencatat 202 orang dari 22 negara meninggal; nama serta kewarganegaraan mereka tercantum pada prasasti monumen. Kami merujuk pada materi publik, bukan menambah data sendiri." }
-    },
-    {
-      "@type": "Question",
-      name: "Apa makna 'Ground Zero' dan 'Panca Benua'?",
-      acceptedAnswer: { "@type": "Answer", text: "Monumen ini juga dikenal sebagai Monumen Panca Benua atau Ground Zero Bali. Bentuk gunungan dan daftar nama menjadikannya ruang peringatan lintas bangsa." }
-    }
-  ]
-};
+import Faq from "../components/Faq.astro";
+const faqSchema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Peristiwa apa yang diperingati?", "acceptedAnswer": {"@type": "Answer", "text": "Monumen Ground Zero di Jalan Legian, Kuta, mengenang korban Bom Bali I pada 12 Oktober 2002. Indonesia.travel menyebut 202 korban dari 22 negara."}}, {"@type": "Question", "name": "Apa yang dijelaskan sumber tentang bentuk monumen?", "acceptedAnswer": {"@type": "Answer", "text": "Indonesia.travel menjelaskan bentuk gunungan wayang dan prasasti nama serta kewarganegaraan korban. Keduanya mendukung fungsi memorial sebagai tempat mengenang dan pesan perdamaian."}}, {"@type": "Question", "name": "Apakah ada jadwal doa bersama?", "acceptedAnswer": {"@type": "Answer", "text": "Pemerintah Badung melaporkan doa lintas agama pada 12 Oktober 2026. Itu catatan kegiatan yang telah berlangsung, bukan jaminan acara rutin atau akses pada tanggal mendatang."}}, {"@type": "Question", "name": "Bagaimana memberi penghormatan?", "acceptedAnswer": {"@type": "Answer", "text": "Jaga suara, hormati orang yang sedang mengenang, dan ikuti petunjuk di lokasi. Jangan menaiki struktur, memindahkan bunga, atau menghalangi prasasti."}}]};
 ---
-<BaseLayout
-  title={withSiteName("Sejarah Bom Bali 2002")}
-  description="Mengapa Monumen Ground Zero Bali berdiri di Legian: tragedi 12 Oktober 2002, prasasti nama korban dari 22 negara, bentuk gunungan, dan makna perdamaian."
-  image={heroImage}
->
-  <main class="legal-page">
-    <a class="legal-back" href="/">← Kembali ke panduan</a>
-    <p class="kicker">Sejarah & konteks</p>
-    <h1>Sejarah Bom Bali 2002</h1>
-    <p class="legal-lede">Monumen Ground Zero Bali berdiri di Jalan Legian, Kuta, untuk mengenang korban tragedi Bom Bali I pada 12 Oktober 2002.</p>
-
-    <section>
-      <h2>Tragedi di kawasan Legian</h2>
-      <p>Ledakan terjadi di kawasan Kuta–Legian pada 12 Oktober 2002. Sumber pariwisata nasional Indonesia mencatat 202 orang dari 22 negara meninggal. Monumen kemudian hadir di lokasi yang berkaitan dengan peristiwa tersebut untuk menghormati korban serta keluarga yang ditinggalkan.</p>
-    </section>
-
-    <section>
-      <h2>Monumen Panca Benua</h2>
-      <p>Monumen ini juga dikenal sebagai Monumen Panca Benua atau Ground Zero Bali. Bagian tengahnya menyerupai <em>gunungan</em>, simbol dalam tradisi wayang yang kerap dipahami sebagai lambang alam semesta. Di bawahnya terdapat prasasti nama-nama korban.</p>
-    </section>
-
-    <figure class="monument-figure">
-      <img src={heroImage} alt="Monumen Ground Zero Bali di Kuta dengan relief batu dan daftar nama korban" loading="lazy" />
-      <figcaption>Foto: Jonathan Liem / Wikimedia Commons · domain publik</figcaption>
-    </figure>
-
-    <section>
-      <h2>Memelihara perdamaian</h2>
-      <p>Pemerintah Kabupaten Badung menggunakan lokasi ini untuk doa perdamaian dan mengenang korban. Kunjungan yang baik memberi tempat bagi hening, empati, serta toleransi. Bacalah prasasti dengan pelan; hindari menyentuh, menaiki, atau menghalangi orang lain yang sedang memberi penghormatan.</p>
-    </section>
-
-    <section>
-      <h2>Sumber yang kami rujuk</h2>
-      <p>Penjelasan di halaman ini merujuk materi publik Pemerintah Kabupaten Badung, sumber pariwisata nasional Indonesia, serta arsip museum. Kami tidak menambahkan angka atau klaim di luar sumber tersebut.</p>
-    </section>
-
-    <nav class="subpage-nav" aria-label="Halaman terkait">
-      <a href="/transportasi">Cara ke Monumen →</a>
-      <a href="/sekitar">Sekitar Kuta & Legian →</a>
-      <a href="/">Kembali ke panduan utama →</a>
-    </nav>
-  </main>
-
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
-</BaseLayout>
+<BaseLayout title="Sejarah Monumen Ground Zero Bali" description="Konteks Bom Bali 2002, nama korban, dan makna memorial di Jalan Legian, Kuta." image="/bali-memorial-jonathan-liem.jpg">
+<main id="konten" class="legal-page"><a class="legal-back" href="/">← Kembali ke panduan</a><p class="kicker">Panduan independen · Kuta</p><h1>Sejarah Monumen Ground Zero Bali</h1><p class="legal-lede">Konteks Bom Bali 2002, nama korban, dan makna memorial di Jalan Legian, Kuta.</p>
+<h2>Tanya jawab</h2><Faq items={faqSchema.mainEntity} />
+<section><h2>Sumber dan batas informasi</h2><p><a href="https://www.indonesia.travel/in/en/destination/bali-nusa-tenggara/bali/monumen-ground-zero/">Indonesia.travel: Monumen Ground Zero</a> · <a href="https://badungkab.go.id/index.php/kab/berita/75808-peringatan-24-tahun-tragedi-bom-bali-badung-gaungkan-perdamaian-dan-toleransi">Pemerintah Badung: laporan doa 12 Oktober 2026</a> · <a href="https://www.indonesia.travel/id/id/destination/bali-nusa-tenggara/bali/pantai-kuta">Indonesia.travel: Pantai Kuta</a>. Informasi perjalanan diperiksa 19 Oktober 2026. <a href="/#peta">Cuplikan lokasi Google Maps</a> bukan izin akses atau jadwal pengelola.</p></section>
+<nav class="subpage-nav" aria-label="Panduan terkait"><a href="/sejarah">Sejarah</a><a href="/transportasi">Transportasi</a><a href="/sekitar">Sekitar</a><a href="/#sumber">Sumber & foto</a></nav></main>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script></BaseLayout>

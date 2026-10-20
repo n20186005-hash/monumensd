@@ -3,5 +3,5 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { withSiteName } from "../data/site";
 ---
 <BaseLayout title={withSiteName("Halaman tidak ditemukan")} description="Halaman yang diminta tidak tersedia." noIndex={true}>
-  <main class="legal-page not-found"><p class="kicker">404</p><h1>Halaman tidak ditemukan.</h1><p class="legal-lede">Tautan ini mungkin telah berubah atau tidak tersedia.</p><a class="button button-dark" href="/">Kembali ke panduan</a></main>
+  <main id="konten" class="legal-page not-found"><p class="kicker">404</p><h1>Halaman tidak ditemukan.</h1><p class="legal-lede">Tautan ini mungkin telah berubah atau tidak tersedia.</p><a class="button button-dark" href="/">Kembali ke panduan</a></main>
 </BaseLayout>

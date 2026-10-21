@@ -12,7 +12,7 @@
     try { sessionStorage.setItem(deniedKey, '1'); return true; } catch { return false; }
   }
   function save(value) {
-    let sessionDenied = false;
+    let sessionDenied = false, saved = false;
     if (!value) sessionDenied = denyForSession();
     try {
       if (value) {
@@ -20,13 +20,15 @@
         // other tabs must not receive an allowance that this form rejects.
         sessionStorage.removeItem(deniedKey);
         if (sessionStorage.getItem(deniedKey) === '1') throw new Error('Tab denial remains active');
+        // The runtime must be able to read the choice before it is shared.
+        localStorage.getItem(key);
       }
       localStorage.setItem(key, JSON.stringify({ analytics: value }));
       if (value) {
         window.__memorialAnalyticsDenied = false;
       }
       checkbox.checked = value;
-      status.textContent = value ? 'Google Analytics diizinkan pada peramban ini.' : 'Google Analytics ditolak pada peramban ini.';
+      saved = true;
     } catch {
       sessionDenied = denyForSession() || sessionDenied;
       checkbox.checked = false;
@@ -35,6 +37,11 @@
         : 'Google Analytics dinonaktifkan pada halaman ini. Penyimpanan pilihan tidak tersedia; hapus data situs melalui pengaturan peramban sebelum berpindah atau memuat ulang.';
     }
     window.dispatchEvent(new Event('memorial:consent'));
+    if (saved) status.textContent = checkbox.checked
+      ? 'Google Analytics diizinkan pada peramban ini.'
+      : value
+        ? 'Google Analytics tetap nonaktif pada halaman ini karena pilihan tersimpan tidak dapat dibaca. Hapus data situs melalui pengaturan peramban sebelum berpindah atau memuat ulang.'
+        : 'Google Analytics ditolak pada peramban ini.';
   }
   form.addEventListener('submit', event => { event.preventDefault(); save(checkbox.checked === true); });
   document.getElementById('reject-all').addEventListener('click', () => save(false));

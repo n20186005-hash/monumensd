@@ -33,7 +33,14 @@ assert.equal(redirect.headers.get('Location'), 'https://monumensd.com/sejarah?q=
 console.log('PASS Worker: explicit aliases GET/HEAD/query, unknown404, normal pages/assets/redirects');
 
 const runtime = await readFile(new URL('../public/consent.js', import.meta.url), 'utf8');
-const formSource = (await readFile(new URL('../src/pages/cookie-settings.astro', import.meta.url), 'utf8')).match(/<script is:inline>([\s\S]*?)<\/script>/)[1];
+const builtSettings = await readFile(new URL('../dist/cookie-settings/index.html', import.meta.url), 'utf8');
+const builtScripts = Array.from(builtSettings.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g));
+const formIndex = builtScripts.findIndex(match => match[2].includes('cookie-form'));
+const runtimeIndex = builtScripts.findIndex(match => match[1].includes('/consent.js'));
+assert.ok(formIndex >= 0 && runtimeIndex > formIndex, 'Replay the actual built initializer order');
+const formSource = builtScripts[formIndex][2];
+assert.equal(await readFile(new URL('../dist/consent.js', import.meta.url), 'utf8'), runtime);
+assert.equal(formSource.trim(), (await readFile(new URL('../src/pages/cookie-settings.astro', import.meta.url), 'utf8')).match(/<script is:inline>([\s\S]*?)<\/script>/)[1].trim());
 const pref = 'memorial-cookie-preferences', veto = 'memorial-analytics-denied', disable = 'ga-disable-G-HXM22WWPKP';
 const grant = JSON.stringify({ analytics: true });
 function storage(map = new Map()) {
@@ -57,6 +64,25 @@ const local = storage(new Map([[pref, grant]])); t = tab(local); local.fail.writ
 assert.equal(local.getItem(pref), grant); assert.equal(effective(t), true); assert.equal(t.session.getItem(veto), '1');
 const reload = tab(local, t.session); assert.equal(effective(reload), true); assert.equal(reload.scripts.length, 0);
 const unreadableSession = storage(); unreadableSession.fail.read = true; t = tab(storage(new Map([[pref, grant]])), unreadableSession); assert.equal(effective(t), true); t.allow(); assert.equal(effective(t), true); assert.equal(t.nodes['analytics-consent'].checked, false);
+// Read and write failures are independent. A failed read must not publish a
+// grant or claim permission while the effective runtime remains disabled.
+const unreadableLocal = storage(new Map([[pref, JSON.stringify({ analytics: false })]]));
+unreadableLocal.fail.read = true;
+const healthyTab = tab(storage(unreadableLocal.map));
+t = tab(unreadableLocal); t.allow(); healthyTab.storageEvent();
+assert.equal(JSON.parse(unreadableLocal.map.get(pref)).analytics, false);
+assert.equal(effective(t), true); assert.equal(t.nodes['analytics-consent'].checked, false);
+assert.match(t.nodes['cookie-status'].textContent, /dinonaktifkan/);
+assert.doesNotMatch(t.nodes['cookie-status'].textContent, /diizinkan/);
+assert.equal(healthyTab.scripts.length, 0);
+// If readability disappears only after a successful write, feedback still
+// describes the applied disabled state rather than the requested allowance.
+const lateRead = storage(); const setItem = lateRead.setItem;
+lateRead.setItem = function(k, v) { setItem.call(this, k, v); this.fail.read = true; };
+t = tab(lateRead); t.allow();
+assert.equal(effective(t), true); assert.equal(t.nodes['analytics-consent'].checked, false);
+assert.match(t.nodes['cookie-status'].textContent, /tetap nonaktif pada halaman ini/);
+assert.doesNotMatch(t.nodes['cookie-status'].textContent, /diizinkan/);
 const shared = storage(new Map([[pref, JSON.stringify({ analytics: false })]]));
 const first = tab(shared, storage(new Map([[veto, '1']]))), second = tab(shared);
 first.session.fail.remove = true; first.allow(); second.storageEvent();
@@ -65,4 +91,4 @@ first.session.fail.remove = false; first.allow(); second.storageEvent(); assert.
 first.deny(); second.storageEvent(); assert.equal(effective(second), true); assert.equal(second.nodes['analytics-consent'].checked, false); assert.equal(latestConsent(second), 'denied'); assert.match(second.nodes['cookie-status'].textContent, /dinonaktifkan/);
 const broken = storage(); broken.fail.write = true; broken.fail.read = true; const brokenLocal = storage(new Map([[pref, grant]])); brokenLocal.fail.write = true; t = tab(brokenLocal, broken); t.deny(); assert.equal(effective(t), true); assert.match(t.nodes['cookie-status'].textContent, /halaman ini/);
 t = tab(storage(new Map([[pref, '{malformed']]))); assert.equal(effective(t), true);
-console.log('PASS consent: default-off, allow/deny/regrant, old-grant write failure+reload, session read/write failures, failed veto removal across separate tabs, shared denial, malformed preference');
+console.log('PASS consent: actual built initializer order, default-off, allow/deny/regrant, old-grant write failure+reload, independent local/session read failures, no shared grant on unreadable local storage, effective feedback after late read failure, session write failures, failed veto removal across separate tabs, shared denial, malformed preference');

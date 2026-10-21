@@ -7,8 +7,14 @@
       return JSON.parse(localStorage.getItem(key) || '{}')?.analytics === true;
     } catch { return false; }
   }
-  function apply() {
+  function apply(event) {
     const consent = allowed();
+    const checkbox = document.getElementById('analytics-consent');
+    if (checkbox) checkbox.checked = consent;
+    const status = document.getElementById('cookie-status');
+    if (status && event?.type === 'storage') status.textContent = consent
+      ? 'Google Analytics diizinkan pada tab ini.'
+      : 'Google Analytics dinonaktifkan pada tab ini.';
     window['ga-disable-' + id] = !consent;
     if (!consent) {
       for (const cookie of document.cookie.split(';')) {
@@ -20,10 +26,14 @@
       if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'denied' });
       return;
     }
-    if (window.__memorialAnalyticsLoaded) return;
+    if (window.__memorialAnalyticsLoaded) {
+      window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      return;
+    }
     window.__memorialAnalyticsLoaded = true;
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', { analytics_storage: 'granted' });
     window.gtag('js', new Date());
     window.gtag('config', id);
     const script = document.createElement('script'); script.async = true;

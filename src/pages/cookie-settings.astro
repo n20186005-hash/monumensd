@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Pengaturan Kuki | Monumen Ground Zero Bali" description="Izinkan atau tolak Google Analytics opsional pada perangkat ini.">
-<main id="konten" class="legal-page"><h1>Pengaturan Kuki</h1><p class="legal-date">19 Oktober 2026</p><p class="legal-lede">Analitik nonaktif secara bawaan. Pilihan disimpan hanya pada peramban ini; peta Google di beranda adalah layanan terpisah.</p><form id="cookie-form" class="cookie-form"><fieldset><legend>Analitik opsional</legend><p>Izinkan Google Analytics mengukur penggunaan situs. Tidak ada pilihan pemasaran atau akun pengguna.</p><label><input type="checkbox" id="analytics-consent" /> Izinkan Google Analytics</label></fieldset><button type="submit" class="button button-dark">Simpan pilihan</button><button type="button" id="reject-all" class="text-button">Tolak / tarik izin analitik</button><p id="cookie-status" role="status" aria-live="polite"></p></form><p><a href="/privacy-policy">Baca Kebijakan Privasi</a></p></main>
+<main id="konten" class="legal-page"><h1>Pengaturan Kuki</h1><p class="legal-date">21 Oktober 2026</p><p class="legal-lede">Google Analytics nonaktif secara bawaan. Pilihan ini hanya mengendalikan Google Analytics pada peramban ini. Peta Google dan pengukuran kinerja hosting Cloudflare adalah layanan terpisah; pengaturan ini tidak menonaktifkannya.</p><form id="cookie-form" class="cookie-form"><fieldset><legend>Google Analytics opsional</legend><p>Izinkan Google Analytics mengukur penggunaan situs. Tidak ada pilihan pemasaran atau akun pengguna.</p><label><input type="checkbox" id="analytics-consent" /> Izinkan Google Analytics</label></fieldset><button type="submit" class="button button-dark">Simpan pilihan</button><button type="button" id="reject-all" class="text-button">Tolak / tarik izin Google Analytics</button><p id="cookie-status" role="status" aria-live="polite"></p></form><p><a href="/privacy-policy">Baca Kebijakan Privasi</a></p></main>
 <script is:inline>
 (() => {
   const key = 'memorial-cookie-preferences';
@@ -20,19 +20,24 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     let sessionDenied = false;
     if (!value) sessionDenied = denyForSession();
     try {
+      if (value) {
+        // Clear the tab veto before publishing a shared grant. If this fails,
+        // other tabs must not receive an allowance that this form rejects.
+        sessionStorage.removeItem(deniedKey);
+        if (sessionStorage.getItem(deniedKey) === '1') throw new Error('Tab denial remains active');
+      }
       localStorage.setItem(key, JSON.stringify({ analytics: value }));
       if (value) {
-        sessionStorage.removeItem(deniedKey);
         window.__memorialAnalyticsDenied = false;
       }
       checkbox.checked = value;
-      status.textContent = value ? 'Analitik diizinkan pada peramban ini.' : 'Analitik ditolak pada peramban ini.';
+      status.textContent = value ? 'Google Analytics diizinkan pada peramban ini.' : 'Google Analytics ditolak pada peramban ini.';
     } catch {
       sessionDenied = denyForSession() || sessionDenied;
       checkbox.checked = false;
       status.textContent = sessionDenied
-        ? 'Analitik dinonaktifkan untuk tab ini, termasuk saat berpindah halaman atau memuat ulang. Pilihan permanen tidak dapat disimpan; pilihan lama mungkin masih tersimpan. Hapus data situs melalui pengaturan peramban untuk menarik izin tersimpan.'
-        : 'Analitik dinonaktifkan pada halaman ini. Penyimpanan pilihan tidak tersedia; hapus data situs melalui pengaturan peramban sebelum berpindah atau memuat ulang.';
+        ? 'Google Analytics dinonaktifkan untuk tab ini, termasuk saat berpindah halaman atau memuat ulang. Pilihan permanen tidak dapat disimpan; pilihan lama mungkin masih tersimpan. Hapus data situs melalui pengaturan peramban untuk menarik izin tersimpan.'
+        : 'Google Analytics dinonaktifkan pada halaman ini. Penyimpanan pilihan tidak tersedia; hapus data situs melalui pengaturan peramban sebelum berpindah atau memuat ulang.';
     }
     window.dispatchEvent(new Event('memorial:consent'));
   }

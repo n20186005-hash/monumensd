@@ -1,1 +1,42 @@
-<footer class="site-footer"><div class="footer-brand">Monumen Ground Zero Bali</div><div class="footer-copy"><p>Panduan independen, bukan situs pemerintah atau pengelola memorial. Tidak melayani pemesanan.</p><p><a href="/#sumber">Sumber publik & kredit foto</a> · Informasi diperiksa 19 Oktober 2026. Akses, biaya, dan kondisi perlu dikonfirmasi.</p></div><div class="footer-meta"><nav aria-label="Dokumen situs"><a href="/privacy-policy">Kebijakan Privasi</a><a href="/terms-of-service">Ketentuan Layanan</a><a href="/cookie-settings">Pengaturan Kuki</a></nav><p>© 2026 Panduan Monumen Ground Zero Bali. Lisensi foto mengikuti masing-masing sumber.</p></div></footer>
+---
+import { RATING_LABEL, RATING_CHECKED, MONUMENT_ADDRESS, MONUMENT_MAP_URL, MONUMENT_LAT, MONUMENT_LNG } from "../data/site";
+interface Props { lang?: "id" | "en"; }
+const { lang = "id" } = Astro.props;
+const en = lang === "en";
+const home = en ? "/en/" : "/";
+const mapEmbed = `https://maps.google.com/maps?q=${MONUMENT_LAT},${MONUMENT_LNG}&z=17&output=embed`;
+---
+<footer class="site-footer">
+  <div class="footer-cols">
+    <div>
+      <h4>{en ? "About this guide" : "Tentang panduan"}</h4>
+      <p class="footer-note">{en ? "This is an independent, third-party information and visit guide for the memorial on Jalan Legian, Kuta. It is not the official monument site and does not represent the local government or manager." : "Ini adalah panduan informasi dan kunjungan independen pihak ketiga untuk monumen di Jalan Legian, Kuta. Bukan situs resmi monumen dan tidak mewakili pemerintah daerah atau pengelola."}</p>
+      <p class="footer-rating">{RATING_LABEL} · {RATING_CHECKED}</p>
+    </div>
+    <div>
+      <h4>{en ? "Explore" : "Jelajahi"}</h4>
+      <ul class="footer-links">
+        <li><a href={en ? "/sejarah" : "/sejarah"}>{en ? "History" : "Sejarah"}</a></li>
+        <li><a href={en ? "/transportasi" : "/transportasi"}>{en ? "Transport" : "Transportasi"}</a></li>
+        <li><a href={en ? "/sekitar" : "/sekitar"}>{en ? "Around" : "Sekitar"}</a></li>
+        <li><a href={home + "#topik"}>{en ? "Topics" : "Topik"}</a></li>
+        <li><a href={home + "#faq"}>{en ? "FAQ" : "Tanya jawab"}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>{en ? "Location" : "Lokasi"}</h4>
+      <p class="footer-addr">{MONUMENT_ADDRESS}</p>
+      <p><a class="footer-map-link" href={MONUMENT_MAP_URL} target="_blank" rel="noopener">{en ? "Open in Google Maps" : "Buka di Google Maps"}</a></p>
+      <iframe title={en ? "Map of the memorial" : "Peta monumen"} class="footer-map" src={mapEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div>
+      <h4>{en ? "Legal" : "Hukum"}</h4>
+      <ul class="footer-links">
+        <li><a href="/privacy-policy">Privacy</a></li>
+        <li><a href="/terms-of-service">Terms</a></li>
+        <li><a href="/cookie-settings">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="footer-base">{en ? "Independent third-party guide. Not an official monument site." : "Panduan independen pihak ketiga. Bukan situs resmi monumen."}</p>
+</footer>

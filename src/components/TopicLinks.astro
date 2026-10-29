@@ -1,0 +1,30 @@
+---
+import { TOPIC_GROUPS, TOPIC_GROUP_OF, TOPICS_ID, TOPICS_EN } from "../data/topics";
+interface Props { lang?: "id" | "en"; }
+const { lang = "id" } = Astro.props;
+const en = lang === "en";
+const T = lang === "en" ? TOPICS_EN : TOPICS_ID;
+const visible = TOPIC_GROUPS
+  .map((g) => {
+    const items = Object.keys(T)
+      .filter((slug) => TOPIC_GROUP_OF[slug] === g.id)
+      .map((slug) => ({ slug, content: T[slug] }));
+    return { label: en ? g.labelEn : g.label, items };
+  })
+  .filter((g) => g.items.length > 0);
+---
+
+<section class="section-shell topic-cluster" id="topik">
+  <h2>{en ? "Guides & Related Topics" : "Panduan & Topik Terkait"}</h2>
+  <p class="topic-cluster-lead">{en ? "Practical notes around the memorial and the Kuta area. Each page verifies its own details." : "Catatan praktis di sekitar monumen dan kawasan Kuta. Setiap halaman memverifikasi detailnya sendiri."}</p>
+  {visible.map((g) => (
+    <div class="cluster-group">
+      <h3>{g.label}</h3>
+      <ul class="cluster-list">
+        {g.items.map((it) => (
+          <li><a href={lang === "en" ? `/en/${it.slug}` : `/${it.slug}`}>{it.content.kicker} — {it.content.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>

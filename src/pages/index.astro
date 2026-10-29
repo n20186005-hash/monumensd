@@ -1,272 +1,191 @@
 ---
-/**
- * 设计提醒：主页是印尼语的纪念地科普长页。真实照片、可核验事实、石材色调与非对称资料栏
- * 共同服务于庄重阅读；不得转写为通用旅游模板或商业推荐页面。
- */
-import Faq from "../components/Faq.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Facts from "../components/Facts.astro";
+import Faq from "../components/Faq.astro";
+import TopicLinks from "../components/TopicLinks.astro";
+import {
+  SITE_NAME,
+  withSiteName,
+  MONUMENT_NAME,
+  MONUMENT_FORMAL_NAME,
+  MONUMENT_ALTERNATE_NAMES,
+  RATING_LABEL,
+  RATING_CHECKED,
+  RATING_VALUE,
+  RATING_COUNT,
+  MONUMENT_ADDRESS,
+  MONUMENT_MAP_URL,
+  MONUMENT_LAT,
+  MONUMENT_LNG,
+  MONUMENT_PLUS_CODE,
+} from "../data/site";
 
-
-const heroImage = "/bali-memorial-jonathan-liem.jpg";
-const detailImage = "/bali-memorial-ken-eckert.jpg";
-const mapUrl = "https://maps.app.goo.gl/bDpUD87WwVCXub8B9";
-const configuredSite = Astro.site?.toString().replace(/\/$/, "");
-
-const attractionSchema = {
-  "@context": "https://schema.org",
-  "@type": "LandmarksOrHistoricalBuildings",
-  name: "Monumen Ground Zero Bali",
-  alternateName: ["Monumen Peringatan Bom Bali", "Monumen Bom Bali I"],
-  description: "Monumen peringatan di Jalan Legian, Kuta, untuk mengenang korban tragedi Bom Bali I pada 12 Oktober 2002.",
-  url: configuredSite || undefined,
-  image: configuredSite ? new URL(heroImage, `${configuredSite}/`).toString() : undefined,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Jalan Legian",
-    addressLocality: "Kuta",
-    addressRegion: "Bali",
-    postalCode: "80361",
-    addressCountry: "ID"
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: -8.7172698,
-    longitude: 115.17449
-  },
-  sameAs: [mapUrl]
+const metaTags = {
+  title: withSiteName("Sejarah, Lokasi & Cara ke Sana"),
+  description:
+    "Panduan independen Monumen Ground Zero Bali (Monumen Tragedi Kemanusiaan) di Jalan Legian, Kuta: sejarah 12 Oktober 2002, lokasi, cara ke sana, dan sekitar. Bukan situs resmi.",
 };
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Apa itu Monumen Ground Zero Bali?",
-      acceptedAnswer: { "@type": "Answer", text: "Monumen Ground Zero Bali adalah monumen peringatan di Jalan Legian, Kuta, yang mengenang korban tragedi Bom Bali I pada 12 Oktober 2002." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah ada tarif masuk dan jam kunjungan resmi?",
-      acceptedAnswer: { "@type": "Answer", text: "Google Maps yang diperiksa pada 19 Oktober 2026 tidak mencantumkan jam operasional, nomor telepon, atau situs pengelola. Panduan ini tidak menetapkan tarif atau jam; verifikasi kondisi akses di lokasi sebelum berangkat." }
-    },
-    {
-      "@type": "Question",
-      name: "Bagaimana cara datang dari Bandara Internasional I Gusti Ngurah Rai?",
-      acceptedAnswer: { "@type": "Answer", text: "Konfirmasikan layanan, zona jemput, tarif, titik turun, dan rute ke Jalan Legian kepada penyedia transportasi pilihan Anda. Panduan ini tidak memastikan layanan atau waktu tempuh tertentu." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah tersedia parkir dan toilet?",
-      acceptedAnswer: { "@type": "Answer", text: "Panduan ini tidak menemukan data resmi tentang kapasitas parkir atau toilet di monumen. Konfirmasikan fasilitas yang dapat digunakan dan rencanakan kebutuhan dasar sebelum tiba." }
-    }
-  ]
-};
-
-const facts = [
-  ["Nama", "Monumen Ground Zero Bali"],
-  ["Lokasi", "Jalan Legian, Kuta, Kabupaten Badung, Bali 80361"],
-  ["Diperiksa", "Google Maps · 19 Oktober 2026"],
-  ["Jenis", "Monumen peringatan / situs memori"],
-  ["Penilaian peta", "4,6 / 5 · 8.549 ulasan publik"],
-  ["Jam & kontak", "Tidak tercantum pada data peta yang diperiksa"],
+const facts: [string, string][] = [
+  [RATING_LABEL, RATING_CHECKED],
+  ["Jalan Legian, Kuta, Badung, Bali", "Lokasi"],
+  ["Monumen peringatan terbuka", "Jenis"],
+  [MONUMENT_PLUS_CODE, "Plus Code"],
 ];
 
-const facilities = [
-  ["WC", "Toilet di memorial belum kami verifikasi. Rencanakan kebutuhan sebelum tiba dan tanyakan fasilitas yang benar-benar dapat digunakan."],
-  ["Parkir", "Parkir khusus belum terkonfirmasi. Tanyakan lokasi legal, tarif, serta akses pejalan kaki kepada penyedia sebelum membawa kendaraan."],
-  ["Makan & minum", "Jika membutuhkan makan atau air minum, periksa lokasi, jam layanan, serta ketentuan penyedia secara terpisah."],
-  ["Akomodasi", "Periksa alamat dan akses penginapan pilihan Anda sendiri; panduan ini tidak memastikan layanan atau jalur dari penginapan ke memorial."],
-  ["Kebutuhan perjalanan", "Untuk ATM, obat, atau penukaran uang, konfirmasikan lokasi dan jam layanan penyedia terlebih dahulu."],
-  ["BBM & pengisian", "Jika membutuhkan BBM atau pengisian kendaraan, cek langsung lokasi, kompatibilitas, dan jam layanan operator. Tidak ada titik layanan yang dijamin di memorial."],
+const faqs = [
+  { q: "Di mana letak monumen ini?", a: "Monumen berada di Jalan Legian, Kuta, Kabupaten Badung, Bali 80361, Indonesia. Gunakan peta untuk rute." },
+  { q: "Berapa jam buka monumen?", a: "Data peta yang diperiksa tidak mencantumkan jam operasional resmi. Verifikasi akses di lokasi." },
+  { q: "Berapa biaya masuk?", a: "Tidak ada tarif resmi yang tercantum pada data peta. Waspadai penawaran tiket tak resmi." },
+  { q: "Boleh membawa anak?", a: "Ya, asalkan diajarkan menjaga ketenangan dan menghormati ruang memori." },
+  { q: "Apakah aman dikunjungi?", a: "Kuta adalah kawasan wisata yang beroperasi. Ikuti petunjuk setempat dan informasi resmi perjalanan." },
 ];
 ---
 
 <BaseLayout
-  title="Monumen Ground Zero Bali, Kuta: Sejarah & Lokasi"
-  description="Monumen Ground Zero Bali di Jalan Legian, Kuta — panduan independen & nonkomersial: lokasi, sejarah Bom Bali 2002, etika kunjungan, rute transportasi, fasilitas sekitar, dan peta."
-  image={heroImage}
+  title={metaTags.title}
+  description={metaTags.description}
+  lang="id"
+  alternates={[
+    { hreflang: "id", href: new URL(Astro.url.pathname, (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+    { hreflang: "en", href: new URL("/en/", (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+    { hreflang: "x-default", href: new URL(Astro.url.pathname, (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+  ]}
 >
-
-
   <main id="konten">
-    <section class="hero" aria-labelledby="judul-utama">
-      <img class="hero-image" src={heroImage} alt="Dokumentasi arsip Monumen Ground Zero Bali oleh Jonathan Liem" />
-      <div class="hero-overlay"></div>
-      <div class="hero-gridline" aria-hidden="true"></div>
-      <div class="hero-content">
-        <p class="kicker light">Kuta · Kabupaten Badung · Bali</p>
-        <p class="independent">Panduan independen · nonkomersial</p>
-        <h1 id="judul-utama">Monumen<br />Ground Zero<br /><em>Bali.</em></h1>
-        <p class="hero-intro">Ruang untuk mengingat korban, memahami sejarah, dan merencanakan kunjungan dengan tenang serta penuh hormat.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#sejarah">Mulai dari sejarah <span aria-hidden="true">↓</span></a>
-          <a class="button button-secondary" href={mapUrl} target="_blank" rel="noreferrer">Buka lokasi di Google Maps <span aria-hidden="true">↗</span></a>
-        </div>
-        <p class="photo-credit light">Foto arsip: <a href="https://commons.wikimedia.org/wiki/File:Bali_memorial.jpg">Jonathan Liem / Wikimedia Commons</a> · domain publik. Kondisi saat ini dapat berbeda.</p>
-      </div>
-      <aside class="hero-facts" aria-label="Ringkasan sebelum berkunjung">
-        <p class="panel-label">Ringkas</p>
-        <h2>Sebelum datang</h2>
-        <dl>
-          <div><dt>Lokasi</dt><dd>Jalan Legian, Kuta</dd></div>
-          <div><dt>Jenis</dt><dd>Monumen peringatan</dd></div>
-          <div><dt>Akses</dt><dd>Konfirmasi sebelum datang</dd></div>
-          <div><dt>Etika</dt><dd>Hening & menghormati</dd></div>
-        </dl>
-        <p class="quiet-warning"><strong>Penting.</strong> Jam, biaya, serta kondisi akses tidak dicantumkan secara resmi pada data peta yang diperiksa. Verifikasi di lokasi sebelum berangkat.</p>
-      </aside>
+    <section class="section-shell hero" id="atas">
+      <p class="kicker">{MONUMENT_FORMAL_NAME}</p>
+      <h1>{MONUMENT_NAME}</h1>
+      <p class="lead">{MONUMENT_NAME} adalah monumen peringatan di Jalan Legian, Kuta, yang mengenang korban tragedi 12 Oktober 2002. Panduan ini membantu Anda memahami sejarah, menemukan lokasi, merencanakan kunjungan yang hormat, dan menjelajahi kawasan Kuta di sekitarnya.</p>
+      <Facts facts={facts} />
     </section>
 
-    <section class="orientation section-shell" aria-labelledby="orientasi">
-      <div class="section-index" aria-hidden="true"><span>01</span><i></i><small>ORIENTASI</small></div>
-      <div class="section-heading">
-        <p class="kicker">Orientasi</p>
-        <h2 id="orientasi">Enam fakta untuk<br />membaca tempat.</h2>
+    <section class="section-shell intro" id="tentang">
+      <h2>Tentang monumen ini</h2>
+      <p>{MONUMENT_NAME} berada di koridor Jalan Legian, Kuta, Kabupaten Badung, Bali. Ia bukan objek wisata hiburan, melainkan ruang memori terbuka yang menghormati korban, penyintas, dan keluarga yang ditinggalkan.</p>
+      <div class="info-grid">
+        <div><h3>Apa</h3><p>Monumen peringatan untuk tragedi 12 Oktober 2002 di kawasan Legian–Kuta.</p></div>
+        <div><h3>Di mana</h3><p>Jalan Legian, Kuta, Kabupaten Badung, Bali 80361. <a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Buka di Google Maps</a>.</p></div>
+        <div><h3>Mengapa</h3><p>Mengenang 202 korban dari 22 negara dan merawat pesan perdamaian lintas bangsa.</p></div>
+        <div><h3>Menghormati</h3><p>Kunjungi dengan tenang. Jangan menaiki struktur atau memindahkan bunga peringatan.</p></div>
       </div>
-      <div class="orientation-note">Cuplikan Google Maps 19 Oktober 2026, bukan pernyataan pengelola. Data lokasi dan penilaian publik dapat berubah. Bagian ini membedakan informasi peta yang dapat diperbarui dari konteks sejarah yang lebih stabil.</div>
-      <div class="fact-grid">
-        {facts.map(([label, value]) => <article><p>{label}</p><h3>{value}</h3></article>)}
+      <p class="note">Panduan independen pihak ketiga. Bukan situs resmi monumen, dan tidak mewakili pemerintah daerah atau pengelola.</p>
+    </section>
+
+    <section class="section-shell map" id="peta">
+      <h2>Peta &amp; lokasi</h2>
+      <p>Gunakan koordinat atau pin peta berikut untuk menuju monumen. Pastikan pengemudi memahami bahwa monumen ada di Kuta, bukan Denpasar. <a href="/koordinat-dan-lokasi">Cara menyebutkan alamat ke pengemudi →</a></p>
+      <iframe title="Peta lokasi monumen" src={`https://maps.google.com/maps?q=${MONUMENT_LAT},${MONUMENT_LNG}&z=17&output=embed`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <p class="addr">{MONUMENT_ADDRESS}</p>
+    </section>
+
+    <section class="section-shell info" id="kunjungan">
+      <h2>Persiapan kunjungan</h2>
+      <div class="info-grid">
+        <div><h3>Jam kunjungan</h3><p>Data peta yang diperiksa tidak mencantumkan jam resmi. Verifikasi akses di lokasi. <a href="/jam-kunjungan">Selengkapnya →</a></p></div>
+        <div><h3>Biaya masuk</h3><p>Tidak ada tarif resmi yang tercantum. Waspadai penawaran tak resmi. <a href="/biaya-masuk">Selengkapnya →</a></p></div>
+        <div><h3>Aksesibilitas</h3><p>Koridor perkotaan; fasilitas akses belum terverifikasi. <a href="/aksesibilitas-monumen">Selengkapnya →</a></p></div>
+        <div><h3>Etika</h3><p>Jaga ketenangan, foto dengan rasa hormat, jangan ganggu prasasti. <a href="/etika-berkunjung">Selengkapnya →</a></p></div>
       </div>
     </section>
 
-    <section id="sejarah" class="history-section" aria-labelledby="sejarah-title">
-      <div class="section-shell history-layout">
-        <div class="section-index dark-index" aria-hidden="true"><span>02</span><i></i><small>SEJARAH</small></div>
-        <div class="history-intro">
-          <p class="kicker copper">Sejarah & konteks</p>
-          <h2 id="sejarah-title">Bukan latar foto.<br />Ruang untuk <em>mengingat.</em></h2>
-          <p>Monumen Ground Zero Bali berdiri di Jalan Legian, Kuta, untuk mengenang korban tragedi Bom Bali I pada 12 Oktober 2002. Sumber pariwisata Indonesia mencatat 202 orang dari 22 negara meninggal; nama serta kewarganegaraan mereka tercantum pada prasasti monumen.</p>
-          <blockquote>“Mengunjungi tempat ini berarti memberi ruang bagi ingatan, perdamaian, dan penghormatan—bukan mempercepatnya menjadi sekadar persinggahan.”</blockquote>
-        </div>
-        <div class="history-stories">
-          <article><span>12 OKTOBER 2002</span><h3>Tragedi di kawasan Legian</h3><p>Ledakan terjadi di kawasan Kuta–Legian. Monumen kemudian hadir di lokasi yang berkaitan dengan peristiwa tersebut untuk menghormati korban serta keluarga yang ditinggalkan.</p></article>
-          <article><span>BENTUK MEMORIAL</span><h3>Memori yang melampaui batas negara</h3><p>Menurut Indonesia.travel, bentuk gunungan dan daftar nama menjadikan tempat ini sebuah ruang peringatan lintas bangsa.</p></article>
-          <article><span>MEMELIHARA PERDAMAIAN</span><h3>Tempat refleksi bersama</h3><p>Pemerintah Kabupaten Badung melaporkan doa lintas agama di memorial pada 12 Oktober 2026. Laporan peristiwa itu bukan jadwal kegiatan mendatang. Kunjungan yang baik memberi tempat bagi hening, empati, serta toleransi.</p></article>
-        </div>
-      </div>
+    <section class="section-shell history" id="sejarah-ringkas">
+      <h2>Sejarah &amp; makna</h2>
+      <p>Monumen ini berkaitan dengan tragedi 12 Oktober 2002 di Legian–Kuta. Indonesia.travel mencatat 202 korban dari 22 negara. Bagian tengah monumen menyerupai gunungan wayang, simbol perdamaian lintas bangsa.</p>
+      <ul class="inline-links">
+        <li><a href="/sejarah">Sejarah lengkap →</a></li>
+        <li><a href="/bom-bali-2002">Bom Bali I 2002 →</a></li>
+        <li><a href="/makna-monumen-perdamaian">Makna monumen →</a></li>
+        <li><a href="/bom-bali-denpasar-2002">Bedakan lokasi Denpasar →</a></li>
+        <li><a href="/peringatan-12-oktober">Peringatan 12 Oktober →</a></li>
+      </ul>
     </section>
 
-    <section class="reading-section section-shell" aria-labelledby="membaca-monumen">
-      <div class="section-index" aria-hidden="true"><span>03</span><i></i><small>MEMBACA</small></div>
-      <div class="reading-copy">
-        <p class="kicker">Cara membaca monumen</p>
-        <h2 id="membaca-monumen">Perhatikan nama,<br />bentuk, dan heningnya.</h2>
-        <p>Bagian tengah monumen menyerupai `gunungan`, sebuah simbol dalam tradisi wayang yang kerap dipahami sebagai lambang alam semesta dan isinya. Di bawahnya terdapat prasasti nama-nama korban. Bacalah dengan pelan; hindari menyentuh, menaiki, atau menghalangi orang lain yang sedang memberi penghormatan.</p>
-        <div class="respect-list">
-          <div><span>01</span><p><strong>Jaga suara.</strong> Area ini adalah tempat mengenang, bukan ruang hiburan.</p></div>
-          <div><span>02</span><p><strong>Foto dengan rasa hormat.</strong> Jangan memindahkan bunga atau menutup akses ke prasasti.</p></div>
-          <div><span>03</span><p><strong>Ikuti kondisi lapangan.</strong> Peringatan, doa bersama, atau pemeliharaan dapat mengubah alur kunjungan.</p></div>
-        </div>
-      </div>
-      <figure class="monument-figure">
-        <img src={detailImage} alt="Dokumentasi arsip memorial di Kuta oleh Ken Eckert" loading="lazy" />
-        <figcaption>Foto arsip: <a href="https://commons.wikimedia.org/wiki/File:Bali_Bombing_Memorial_in_Kuta.jpg">Ken Eckert / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Tampilan dipotong untuk tata letak; bukan bukti kondisi saat ini.</figcaption>
-      </figure>
+    <section class="section-shell transport" id="transportasi-ringkas">
+      <h2>Transportasi</h2>
+      <p>Monumen berada di koridor Jalan Legian yang aktif. Rencanakan transfer dari bandara atau Denpasar dengan penyedia terverifikasi, dan verifikasi parkir serta rute.</p>
+      <ul class="inline-links">
+        <li><a href="/transportasi">Transportasi lengkap →</a></li>
+        <li><a href="/dari-bandara-ngurah-rai">Dari bandara Ngurah Rai →</a></li>
+        <li><a href="/dari-denpasar">Dari Denpasar →</a></li>
+        <li><a href="/parkir-sekitar-kuta">Parkir di Kuta →</a></li>
+      </ul>
     </section>
 
-    <section id="kunjungan" class="visit-section" aria-labelledby="kunjungan-title">
-      <div class="section-shell visit-layout">
-        <div class="section-index light-index" aria-hidden="true"><span>04</span><i></i><small>KUNJUNGAN</small></div>
-        <div>
-          <p class="kicker light">Rencanakan kunjungan</p>
-          <h2 id="kunjungan-title">Datang dengan<br />ekspektasi yang tepat.</h2>
-        </div>
-        <div class="visit-copy">
-          <p>Google Maps yang diperiksa pada 19 Oktober 2026 tidak mencantumkan jam operasional, telepon, atau situs pengelola. Jangan menganggap akses tersedia 24 jam atau pada malam hari. Konfirmasikan kondisi akses dan pemberitahuan setempat sebelum datang.</p>
-          <div class="visit-data">
-            <article><span>Waktu refleksi</span><strong>Tanpa durasi tetap</strong><p>Sesuaikan kunjungan dengan akses yang diizinkan dan orang lain yang sedang memberi penghormatan.</p></article>
-            <article><span>Akses</span><strong>Konfirmasi lebih dahulu</strong><p>Jangan menyimpulkan izin masuk dari foto, ulasan, atau letak memorial di tepi jalan.</p></article>
-            <article><span>Biaya & jam</span><strong>Perlu diverifikasi</strong><p>Data publik yang diperiksa tidak menampilkan tarif maupun jam operasional resmi.</p></article>
-          </div>
-        </div>
-      </div>
+    <section class="section-shell nearby" id="sekitar">
+      <h2>Kawasan sekitar</h2>
+      <p>Setelah mengenang, Anda dapat melanjutkan ke Pantai Kuta, Beachwalk, Poppies Lane, atau taman air. Semua tujuan terpisah; verifikasi masing-masing.</p>
+      <ul class="inline-links">
+        <li><a href="/sekitar">Sekitar lengkap →</a></li>
+        <li><a href="/pantai-kuta">Pantai Kuta →</a></li>
+        <li><a href="/beachwalk-kuta">Beachwalk →</a></li>
+        <li><a href="/poppies-lane">Poppies Lane →</a></li>
+        <li><a href="/itinerary-sehari">Itinerari sehari →</a></li>
+      </ul>
     </section>
 
-    <section id="transportasi" class="practical-section section-shell" aria-labelledby="transportasi-title">
-      <div class="section-index" aria-hidden="true"><span>05</span><i></i><small>TRANSPORT</small></div>
-      <div class="section-heading practical-heading">
-        <p class="kicker">Transportasi rinci</p>
-        <h2 id="transportasi-title">Menuju Jalan Legian,<br />dengan persiapan.</h2>
-      </div>
-      <div class="transport-grid">
-        <article><span>DPS · BANDARA</span><h3>Dari Bandara I Gusti Ngurah Rai</h3><p>Tanyakan kepada penyedia transportasi yang Anda pilih tentang izin dan zona jemput, tujuan Monumen Ground Zero di Jalan Legian, tarif, serta titik turun. Tidak ada layanan atau waktu tempuh tertentu yang dipastikan oleh panduan ini.</p></article>
-        <article><span>BUS / ANGKUTAN</span><h3>Angkutan umum dan sambungan akhir</h3><p>Rute, halte, dan pola layanan dapat berubah. Periksa jaringan transportasi Bali yang aktif pada hari perjalanan, dan konfirmasikan apakah sambungan akhir yang sesuai benar-benar tersedia.</p></article>
-        <article><span>TAKSI / APLIKASI</span><h3>Turun di titik yang aman</h3><p>Konfirmasikan titik antar-jemput dan estimasi biaya sebelum berangkat. Jangan berhenti di lajur sibuk atau menghalangi jalur pejalan kaki di sekitar memorial.</p></article>
-        <article><span>MOBIL / MOTOR</span><h3>Perhatikan parkir dan arus</h3><p>Parkir khusus memorial belum terkonfirmasi. Tanyakan lokasi parkir legal dan kondisi jalur akhir sebelum membawa kendaraan; patuhi rambu dan jangan berhenti di lajur lalu lintas.</p></article>
-      </div>
+    <TopicLinks lang="id" />
+
+    <section class="section-shell faq" id="faq">
+      <h2>Tanya jawab</h2>
+      <Faq items={faqs} />
     </section>
 
-    <section id="fasilitas" class="facilities-section" aria-labelledby="fasilitas-title">
-      <div class="section-shell">
-        <div class="section-index dark-index" aria-hidden="true"><span>06</span><i></i><small>FASILITAS</small></div>
-        <div class="facility-intro">
-          <p class="kicker copper">Fasilitas & kebutuhan</p>
-          <h2 id="fasilitas-title">Hal kecil yang perlu<br />direncanakan.</h2>
-          <p>Ini adalah ruang memorial di koridor perkotaan, bukan pusat layanan wisata. Ketersediaan fasilitas dapat berbeda menurut kondisi lapangan; kami hanya menyebut kategori kebutuhan secara netral dan tidak merekomendasikan pelaku usaha tertentu.</p>
-        </div>
-        <div class="facility-table" role="table" aria-label="Kebutuhan pengunjung di kawasan sekitar">
-          {facilities.map(([name, detail]) => <div role="row"><strong role="cell">{name}</strong><p role="cell">{detail}</p></div>)}
-        </div>
-      </div>
-    </section>
-
-    <section id="sekitar" class="nearby-section section-shell" aria-labelledby="sekitar-title">
-      <div class="section-index" aria-hidden="true"><span>07</span><i></i><small>SEKITAR</small></div>
-      <div class="section-heading">
-        <p class="kicker">Kawasan sekitar</p>
-        <h2 id="sekitar-title">Lanjutkan dengan sadar,<br />bukan terburu-buru.</h2>
-      </div>
-      <div class="nearby-grid">
-        <article><p>01 · PANTAI</p><h3>Pantai Kuta</h3><p>Indonesia.travel mencantumkan Pantai Kuta sebagai tujuan tersendiri. Jika ingin menambah kunjungan, periksa alamat, kondisi akses, dan rute secara terpisah; tidak ada jalur langsung dari memorial yang kami pastikan.</p></article>
-        <article><p>02 · PESISIR</p><h3>Kawasan Pantai Legian</h3><p>Pantai Legian adalah calon tujuan terpisah, bukan bagian memorial. Konfirmasikan titik tujuan, akses, dan kondisi perjalanan sendiri; kedekatan nama tidak menjamin hubungan jalan kaki atau izin masuk.</p></article>
-        <article><p>03 · RUANG KOTA</p><h3>Jalan Legian & Kuta</h3><p>Koridor ini memperlihatkan perubahan Kuta sebagai ruang wisata, kerja, dan memori. Beri jarak pada aktivitas lokal, rambu, serta pergerakan pejalan kaki.</p></article>
-      </div>
-    </section>
-
-    <section id="peta" class="map-section" aria-labelledby="peta-title">
-      <div class="map-copy">
-        <p class="kicker light">Lokasi</p>
-        <h2 id="peta-title">Temukan posisi,<br />lalu cek kondisi.</h2>
-        <p>Alamat yang dapat disebutkan kepada pengemudi adalah <strong>Monumen Ground Zero Bali, Jalan Legian, Kuta, Kabupaten Badung, Bali 80361</strong>. Gunakan peta untuk rute, lalu ikuti kondisi akses dan rambu setempat.</p>
-        <a class="button button-primary" href={mapUrl} target="_blank" rel="noreferrer">Buka petunjuk arah <span aria-hidden="true">↗</span></a>
-      </div>
-      <iframe title="Peta Monumen Ground Zero Bali" src="https://maps.google.com/maps?q=-8.7172698,115.17449&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </section>
-
-    <section id="faq" class="faq-section section-shell" aria-labelledby="faq-title">
-      <div class="section-index" aria-hidden="true"><span>08</span><i></i><small>FAQ</small></div>
-      <div class="section-heading">
-        <p class="kicker">Tanya jawab</p>
-        <h2 id="faq-title">Jawaban sebelum<br />melangkah.</h2>
-      </div>
-      <Faq items={faqSchema.mainEntity} />
-    </section>
-
-    <section id="sumber" class="sources-section section-shell" aria-labelledby="sumber-title">
-      <div class="section-index" aria-hidden="true"><span>09</span><i></i><small>SUMBER</small></div>
-      <div class="section-heading"><p class="kicker">Sumber publik</p><h2 id="sumber-title">Baca lebih lanjut<br />dari sumbernya.</h2></div>
-      <div class="source-grid">
-        <a href="https://www.indonesia.travel/in/en/destination/bali-nusa-tenggara/bali/monumen-ground-zero" target="_blank" rel="noreferrer"><span>PARIWISATA NASIONAL</span><strong>Indonesia.travel</strong><p>Ringkasan fungsi monumen, korban, bentuk gunungan, serta makna perdamaian.</p><i>↗</i></a>
-        <a href="https://badungkab.go.id/index.php/kab/berita/75808-peringatan-24-tahun-tragedi-bom-bali-badung-gaungkan-perdamaian-dan-toleransi" target="_blank" rel="noreferrer"><span>PEMERINTAH DAERAH</span><strong>Kabupaten Badung</strong><p>Laporan 13 Oktober 2026 tentang doa pada 12 Oktober 2026; bukan kalender acara mendatang.</p><i>↗</i></a>
-        <a href={mapUrl} target="_blank" rel="noreferrer"><span>DATA LOKASI</span><strong>Google Maps</strong><p>Alamat, koordinat, kategori tempat, dan agregat ulasan yang ditampilkan.</p><i>↗</i></a>
-        <a href="https://www.indonesia.travel/id/id/destination/bali-nusa-tenggara/bali/pantai-kuta" target="_blank" rel="noreferrer"><span>TUJUAN TERPISAH</span><strong>Indonesia.travel · Kuta</strong><p>Konteks Pantai Kuta dan Legian, bukan bukti jalur langsung atau akses dari memorial.</p><i>↗</i></a>
-      </div>
-    </section>
-
-    <section class="sources-section section-shell" aria-labelledby="lanjutan-title">
-      <div class="section-index" aria-hidden="true"><span>10</span><i></i><small>LAINNYA</small></div>
-      <div class="section-heading"><p class="kicker">Bacaan lanjutan</p><h2 id="lanjutan-title">Perluas<br />pemahaman.</h2></div>
-      <div class="rel-grid">
-        <a href="/sejarah"><span>SEJARAH</span><strong>Sejarah Bom Bali 2002</strong><p>Mengapa monumen ini berdiri di Legian: tragedi 12 Oktober 2002, prasasti nama korban, dan makna perdamaian.</p><i>↗</i></a>
-        <a href="/transportasi"><span>TRANSPORTASI</span><strong>Cara ke Monumen</strong><p>Persiapan perjalanan ke Jalan Legian: konfirmasi layanan, titik turun, biaya, dan akses sebelum berangkat.</p><i>↗</i></a>
-        <a href="/sekitar"><span>SEKITAR</span><strong>Kuta & Legian</strong><p>Pantai Kuta, kawasan Legian, dan koridor Jalan Legian sebagai ruang wisata sekaligus ruang memori.</p><i>↗</i></a>
-      </div>
+    <section class="section-shell sources" id="sumber">
+      <h2>Sumber &amp; verifikasi</h2>
+      <ul class="source-list">
+        <li><a href="https://www.indonesia.travel" target="_blank" rel="noopener">Indonesia.travel — informasi pariwisata resmi</a></li>
+        <li><a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Google Maps — data lokasi &amp; penilaian publik (diperiksa 28 Oktober 2026)</a></li>
+        <li>Pemerintah Kabupaten Badung — laporan doa lintas agama 12 Oktober 2026 (catatan masa lalu)</li>
+      </ul>
+      <p class="note">Informasi jam, tarif, dan layanan dapat berubah. Verifikasi di lokasi atau dengan penyedia resmi sebelum berangkat.</p>
     </section>
   </main>
 
-
-
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["TouristAttraction", "LandmarksOrHistoricalBuildings", "Place"],
+        "@id": "https://monumensd.com/#attraction",
+        name: MONUMENT_FORMAL_NAME,
+        alternateName: MONUMENT_ALTERNATE_NAMES,
+        description: "Monumen peringatan di Jalan Legian, Kuta, Bali, yang mengenang korban tragedi 12 Oktober 2002.",
+        address: { "@type": "PostalAddress", streetAddress: "Jalan Legian, Kuta", addressLocality: "Kuta", addressRegion: "Bali", postalCode: "80361", addressCountry: "ID" },
+        geo: { "@type": "GeoCoordinates", latitude: MONUMENT_LAT, longitude: MONUMENT_LNG },
+        aggregateRating: { "@type": "AggregateRating", ratingValue: RATING_VALUE, reviewCount: RATING_COUNT, bestRating: 5 },
+        isAccessibleForFree: true,
+        sameAs: [MONUMENT_MAP_URL],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://monumensd.com/#website",
+        url: "https://monumensd.com/",
+        name: SITE_NAME,
+        inLanguage: "id",
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://monumensd.com/#organization",
+        name: SITE_NAME,
+        url: "https://monumensd.com/",
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://monumensd.com/#webpage",
+        url: "https://monumensd.com/",
+        name: metaTags.title,
+        description: metaTags.description,
+        inLanguage: "id",
+        about: { "@id": "https://monumensd.com/#attraction" },
+        isPartOf: { "@id": "https://monumensd.com/#website" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Beranda", item: "https://monumensd.com/" },
+        ],
+      },
+    ],
+  })} />
 </BaseLayout>

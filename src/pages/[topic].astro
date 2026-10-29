@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TopicPage from "../components/TopicPage.astro";
+import { TOPIC_SLUGS, TOPIC_GROUP_OF, TOPICS_ID, TOPICS_EN, type TopicContent } from "../data/topics";
+
+export function getStaticPaths() {
+  return TOPIC_SLUGS.map((slug) => ({
+    params: { topic: slug },
+    props: { slug, groupId: TOPIC_GROUP_OF[slug], topic: TOPICS_ID[slug] as TopicContent },
+  }));
+}
+
+const { slug, groupId, topic } = Astro.props;
+const configuredSite = Astro.site?.toString().replace(/\/$/, "") ?? "https://monumensd.com";
+const self = new URL(Astro.url.pathname, `${configuredSite}/`).toString();
+const alternates = TOPICS_EN[slug]
+  ? [
+      { hreflang: "id", href: self },
+      { hreflang: "en", href: new URL(`/en/${slug}`, `${configuredSite}/`).toString() },
+      { hreflang: "x-default", href: self },
+    ]
+  : [
+      { hreflang: "id", href: self },
+      { hreflang: "x-default", href: self },
+    ];
+---
+
+<BaseLayout
+  title={topic.metaTitle}
+  description={topic.metaDescription}
+  lang="id"
+  alternates={alternates}
+>
+  <TopicPage topic={topic} slug={slug} groupId={groupId} lang="id" />
+</BaseLayout>

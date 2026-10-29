@@ -7,21 +7,30 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_NAME } from "../data/site";
 
+interface Alt { hreflang: string; href: string; }
 interface Props {
   title: string;
   description: string;
   image?: string;
   noIndex?: boolean;
+  lang?: string;
+  alternates?: Alt[];
 }
 
-const { title, description, image, noIndex = false } = Astro.props;
+const { title, description, image, noIndex = false, lang = "id", alternates } = Astro.props;
 const configuredSite = Astro.site?.toString().replace(/\/$/, "");
 const canonical = configuredSite && !noIndex ? new URL(Astro.url.pathname, `${configuredSite}/`).toString() : undefined;
 const shareImage = configuredSite && image ? new URL(image, `${configuredSite}/`).toString() : undefined;
+const resolvedAlternates: Alt[] = alternates && alternates.length
+  ? alternates
+  : canonical
+    ? [{ hreflang: "id", href: canonical }, { hreflang: "x-default", href: canonical }]
+    : [];
+const ogLocale = lang === "en" ? "en_US" : "id_ID";
 ---
 
 <!doctype html>
-<html lang="id">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,7 +38,8 @@ const shareImage = configuredSite && image ? new URL(image, `${configuredSite}/`
     <meta name="description" content={description} />
     {canonical && <link rel="canonical" href={canonical} />}
     {noIndex && <meta name="robots" content="noindex,follow" />}
-    <meta property="og:locale" content="id_ID" />
+    {resolvedAlternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
@@ -46,10 +56,10 @@ const shareImage = configuredSite && image ? new URL(image, `${configuredSite}/`
     <title>{title}</title>
   </head>
   <body>
-    <a class="skip-link" href="#konten">Lewati ke isi utama</a>
-    <Header />
+    <a class="skip-link" href="#konten">{lang === "en" ? "Skip to content" : "Lewati ke isi utama"}</a>
+    <Header lang={lang as "id" | "en"} />
     <slot />
-    <Footer />
+    <Footer lang={lang as "id" | "en"} />
     <script is:inline src="/consent.js"></script>
   </body>
 </html>

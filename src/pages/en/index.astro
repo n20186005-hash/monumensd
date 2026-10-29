@@ -1,0 +1,187 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Facts from "../../components/Facts.astro";
+import Faq from "../../components/Faq.astro";
+import TopicLinks from "../../components/TopicLinks.astro";
+import {
+  MONUMENT_NAME,
+  MONUMENT_FORMAL_NAME,
+  MONUMENT_ALTERNATE_NAMES,
+  RATING_LABEL,
+  RATING_CHECKED,
+  MONUMENT_ADDRESS,
+  MONUMENT_MAP_URL,
+  MONUMENT_LAT,
+  MONUMENT_LNG,
+  MONUMENT_PLUS_CODE,
+} from "../../data/site";
+
+const metaTags = {
+  title: "Bali Ground Zero Memorial (Kuta) — Independent Visit & History Guide",
+  description:
+    "An independent, third-party guide to the Bali bombing memorial on Jalan Legian, Kuta: the 12 October 2002 history, location, how to get there, and the surrounding Kuta area. Not the official monument site.",
+};
+
+const facts: [string, string][] = [
+  [RATING_LABEL, RATING_CHECKED],
+  ["Jalan Legian, Kuta, Badung, Bali", "Location"],
+  ["Open memorial", "Type"],
+  [MONUMENT_PLUS_CODE, "Plus Code"],
+];
+
+const faqs = [
+  { q: "Where is the memorial located?", a: "The memorial is on Jalan Legian, Kuta, Badung Regency, Bali 80361, Indonesia. Use the map for routing." },
+  { q: "What are the opening hours?", a: "The map data we reviewed does not list official operating hours. Verify access on site." },
+  { q: "Is there an entry fee?", a: "No official fee is listed on the map data. Be cautious of unofficial ticket offers." },
+  { q: "Is it suitable to bring children?", a: "Yes, as long as they are taught to keep quiet and respect the space of remembrance." },
+  { q: "Is it safe to visit?", a: "Kuta is an operating tourist area. Follow local guidance and official travel information." },
+];
+---
+
+<BaseLayout
+  title={metaTags.title}
+  description={metaTags.description}
+  lang="en"
+  alternates={[
+    { hreflang: "en", href: new URL(Astro.url.pathname, (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+    { hreflang: "id", href: new URL("/", (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+    { hreflang: "x-default", href: new URL("/", (Astro.site ?? "https://monumensd.com/").toString().replace(/\/$/, "") + "/").toString() },
+  ]}
+>
+  <main id="konten">
+    <section class="section-shell hero" id="atas">
+      <p class="kicker">{MONUMENT_FORMAL_NAME}</p>
+      <h1>{MONUMENT_NAME}</h1>
+      <p class="lead">{MONUMENT_NAME} is a memorial on Jalan Legian, Kuta, remembering the victims of the 12 October 2002 tragedy. This guide helps you understand the history, find the location, plan a respectful visit, and explore the surrounding Kuta area.</p>
+      <Facts facts={facts} />
+    </section>
+
+    <section class="section-shell intro" id="tentang">
+      <h2>About this memorial</h2>
+      <p>{MONUMENT_NAME} stands in the Jalan Legian corridor, Kuta, Badung Regency, Bali. It is not an entertainment attraction but an open memorial space honouring the victims, survivors, and families left behind.</p>
+      <div class="info-grid">
+        <div><h3>What</h3><p>A memorial for the 12 October 2002 tragedy in the Legian–Kuta area.</p></div>
+        <div><h3>Where</h3><p>Jalan Legian, Kuta, Badung Regency, Bali 80361. <a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Open in Google Maps</a>.</p></div>
+        <div><h3>Why</h3><p>Remembering 202 victims from 22 countries and carrying a cross-nation message of peace.</p></div>
+        <div><h3>Respect</h3><p>Visit quietly. Do not climb the structure or move memorial flowers.</p></div>
+      </div>
+      <p class="note">Independent third-party guide. Not the official monument site, and not representing the local government or manager.</p>
+    </section>
+
+    <section class="section-shell map" id="peta">
+      <h2>Map &amp; location</h2>
+      <p>Use the coordinates or the map pin below to reach the memorial. Make sure your driver understands the memorial is in Kuta, not Denpasar. <a href="/koordinat-dan-lokasi">How to say the address to a driver →</a></p>
+      <iframe title="Map of the memorial" src={`https://maps.google.com/maps?q=${MONUMENT_LAT},${MONUMENT_LNG}&z=17&output=embed`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <p class="addr">{MONUMENT_ADDRESS}</p>
+    </section>
+
+    <section class="section-shell info" id="kunjungan">
+      <h2>Planning your visit</h2>
+      <div class="info-grid">
+        <div><h3>Opening hours</h3><p>Reviewed map data does not list official hours. Verify access on site. <a href="/en/jam-kunjungan">More →</a></p></div>
+        <div><h3>Entry fee</h3><p>No official fee is listed. Be cautious of unofficial offers. <a href="/en/biaya-masuk">More →</a></p></div>
+        <div><h3>Accessibility</h3><p>Urban corridor; accessible facilities are not yet verified. <a href="/aksesibilitas-monumen">More →</a></p></div>
+        <div><h3>Etiquette</h3><p>Keep quiet, photograph respectfully, do not disturb the inscription. <a href="/en/etika-berkunjung">More →</a></p></div>
+      </div>
+    </section>
+
+    <section class="section-shell history" id="sejarah-ringkas">
+      <h2>History &amp; meaning</h2>
+      <p>This memorial relates to the 12 October 2002 tragedy in Legian–Kuta. Indonesia.travel records 202 victims from 22 countries. The centre of the monument resembles a wayang gunungan, a symbol of cross-nation peace.</p>
+      <ul class="inline-links">
+        <li><a href="/sejarah">Full history (id) →</a></li>
+        <li><a href="/en/bom-bali-2002">Bali bombing I 2002 →</a></li>
+        <li><a href="/en/makna-monumen-perdamaian">Meaning of the monument →</a></li>
+        <li><a href="/en/bom-bali-denpasar-2002">Kuta vs Denpasar →</a></li>
+        <li><a href="/peringatan-12-oktober">12 October memorial (id) →</a></li>
+      </ul>
+    </section>
+
+    <section class="section-shell transport" id="transportasi-ringkas">
+      <h2>Getting there</h2>
+      <p>The memorial is on the busy Jalan Legian corridor. Plan airport or Denpasar transfers with verified providers, and verify parking and walking routes.</p>
+      <ul class="inline-links">
+        <li><a href="/transportasi">Full transport (id) →</a></li>
+        <li><a href="/en/dari-bandara-ngurah-rai">From Ngurah Rai Airport →</a></li>
+        <li><a href="/dari-denpasar">From Denpasar →</a></li>
+        <li><a href="/parkir-sekitar-kuta">Parking in Kuta →</a></li>
+      </ul>
+    </section>
+
+    <section class="section-shell nearby" id="sekitar">
+      <h2>Around the area</h2>
+      <p>After remembering, you can continue to Kuta Beach, Beachwalk, Poppies Lane, or the waterpark. Each destination is separate; verify each one individually.</p>
+      <ul class="inline-links">
+        <li><a href="/sekitar">Full around guide (id) →</a></li>
+        <li><a href="/en/pantai-kuta">Kuta Beach →</a></li>
+        <li><a href="/beachwalk-kuta">Beachwalk →</a></li>
+        <li><a href="/poppies-lane">Poppies Lane →</a></li>
+        <li><a href="/en/itinerary-sehari">One-day itinerary →</a></li>
+      </ul>
+    </section>
+
+    <TopicLinks lang="en" />
+
+    <section class="section-shell faq" id="faq">
+      <h2>Frequently asked</h2>
+      <Faq items={faqs} />
+    </section>
+
+    <section class="section-shell sources" id="sumber">
+      <h2>Sources &amp; verification</h2>
+      <ul class="source-list">
+        <li><a href="https://www.indonesia.travel" target="_blank" rel="noopener">Indonesia.travel — official tourism information</a></li>
+        <li><a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Google Maps — location &amp; public ratings data (reviewed 28 October 2026)</a></li>
+        <li>Badung Regency Government — cross-faith prayer report, 12 October 2026 (historical note)</li>
+      </ul>
+      <p class="note">Hours, fees, and services may change. Verify on site or with official providers before departure.</p>
+    </section>
+  </main>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["TouristAttraction", "LandmarksOrHistoricalBuildings", "Place"],
+        "@id": "https://monumensd.com/#attraction",
+        name: MONUMENT_FORMAL_NAME,
+        alternateName: MONUMENT_ALTERNATE_NAMES,
+        description: "A memorial on Jalan Legian, Kuta, Bali, remembering the victims of the 12 October 2002 tragedy.",
+        address: { "@type": "PostalAddress", streetAddress: "Jalan Legian, Kuta", addressLocality: "Kuta", addressRegion: "Bali", postalCode: "80361", addressCountry: "ID" },
+        geo: { "@type": "GeoCoordinates", latitude: MONUMENT_LAT, longitude: MONUMENT_LNG },
+        aggregateRating: { "@type": "AggregateRating", ratingValue: 4.6, reviewCount: 8553, bestRating: 5 },
+        isAccessibleForFree: true,
+        sameAs: [MONUMENT_MAP_URL],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://monumensd.com/#website",
+        url: "https://monumensd.com/",
+        name: "Monumen Ground Zero Bali (Monumen Tragedi Kemanusiaan), Kuta — Panduan Wisata",
+        inLanguage: "en",
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://monumensd.com/#organization",
+        name: "Monumen Ground Zero Bali (Monumen Tragedi Kemanusiaan), Kuta — Panduan Wisata",
+        url: "https://monumensd.com/",
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://monumensd.com/en/#webpage",
+        url: "https://monumensd.com/en/",
+        name: metaTags.title,
+        description: metaTags.description,
+        inLanguage: "en",
+        about: { "@id": "https://monumensd.com/#attraction" },
+        isPartOf: { "@id": "https://monumensd.com/#website" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://monumensd.com/en/" },
+        ],
+      },
+    ],
+  })} />
+</BaseLayout>

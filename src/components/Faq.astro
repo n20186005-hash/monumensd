@@ -1,5 +1,24 @@
 ---
-interface Props { items: { name: string; acceptedAnswer: { text: string } }[]; }
+interface FaqItem {
+  name?: string;
+  q?: string;
+  acceptedAnswer?: { text: string };
+  a?: string;
+}
+interface Props {
+  items: FaqItem[];
+}
 const { items } = Astro.props;
+const normalized = items.map((it) => ({
+  q: it.name ?? it.q ?? "",
+  a: it.acceptedAnswer?.text ?? it.a ?? "",
+}));
 ---
-<div class="faq-list">{items.map((item, index) => <details><summary><span>{String(index + 1).padStart(2, '0')}</span>{item.name}</summary><p>{item.acceptedAnswer.text}</p></details>)}</div>
+<div class="faq-list">
+  {normalized.map((item, index) => (
+    <details>
+      <summary><span>{String(index + 1).padStart(2, "0")}</span>{item.q}</summary>
+      <p>{item.a}</p>
+    </details>
+  ))}
+</div>

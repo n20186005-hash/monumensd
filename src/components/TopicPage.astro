@@ -1,0 +1,113 @@
+---
+import { KNOWN_PAGES, TOPICS_ID, TOPICS_EN, TOPIC_GROUPS, TOPIC_GROUP_OF } from "../data/topics";
+import type { TopicContent } from "../data/topics";
+
+interface Props {
+  topic: TopicContent;
+  slug: string;
+  groupId: string;
+  lang?: "id" | "en";
+}
+const { topic, slug, groupId, lang = "id" } = Astro.props;
+const en = lang === "en";
+const homePath = en ? "/en/" : "/";
+const groupDef = TOPIC_GROUPS.find((g: { id: string; label: string; labelEn: string }) => g.id === groupId);
+const groupLabel = en ? (groupDef?.labelEn ?? groupId) : (groupDef?.label ?? groupId);
+const registry = en ? TOPICS_EN : TOPICS_ID;
+const updatedText = en ? topic.updated.replace("Oktober", "October") : topic.updated;
+
+// Tautan terkait otomatis dari grup yang sama (internal linking antar-topik).
+const relatedResolved: { href: string; label: string }[] = Object.keys(registry)
+  .filter((s: string) => TOPIC_GROUP_OF[s] === groupId && s !== slug)
+  .map((s: string) => ({
+    href: lang === "en" ? `/en/${s}` : `/${s}`,
+    label: registry[s].title,
+  }));
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": new URL(Astro.url.pathname, Astro.site ?? "https://monumensd.com/").toString() + "#webpage",
+      url: new URL(Astro.url.pathname, Astro.site ?? "https://monumensd.com/").toString(),
+      name: topic.title,
+      description: topic.metaDescription,
+      inLanguage: lang === "en" ? "en" : "id",
+      about: { "@id": "https://monumensd.com/#attraction" },
+      isPartOf: { "@id": "https://monumensd.com/#website" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: KNOWN_PAGES[homePath] || "Beranda", item: new URL(homePath, Astro.site ?? "https://monumensd.com/").toString() },
+        { "@type": "ListItem", position: 2, name: groupLabel, item: new URL(homePath, Astro.site ?? "https://monumensd.com/").toString() + "#topik" },
+        { "@type": "ListItem", position: 3, name: topic.title, item: new URL(Astro.url.pathname, Astro.site ?? "https://monumensd.com/").toString() },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: topic.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+};
+---
+
+<article>
+  <section class="section-shell topic-hero">
+    <p class="kicker">{topic.kicker}</p>
+    <h1>{topic.title}</h1>
+    <p class="topic-lead">{topic.lead}</p>
+
+    <dl class="topic-facts">
+      {topic.facts.map(([k, v]) => (
+        <div class="topic-fact">
+          <dt>{k}</dt>
+          <dd>{v}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <p class="topic-updated">{en ? "Updated" : "Diperbarui"}: {updatedText} · {en ? "Independent third-party guide, not the official monument site." : "Panduan independen pihak ketiga, bukan situs resmi."}</p>
+  </section>
+
+  {topic.sections.map((s) => (
+    <section class="section-shell topic-section">
+      <h2>{s.heading}</h2>
+      {s.body && <p>{s.body}</p>}
+      {s.bullets && (
+        <ul>
+          {s.bullets.map((b) => <li>{b}</li>)}
+        </ul>
+      )}
+      {s.callout && <p class="topic-callout">{s.callout}</p>}
+    </section>
+  ))}
+
+  <section class="section-shell topic-faq">
+    <h2>{en ? "Frequently Asked Questions" : "Pertanyaan Umum"}</h2>
+    <div class="faq-list">
+      {topic.faqs.map((f) => (
+        <details class="faq-item">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  {relatedResolved.length > 0 && (
+    <section class="section-shell topic-related">
+      <h2>{en ? "Related Reading" : "Bacaan Terkait"}</h2>
+      <div class="related-grid">
+        {relatedResolved.map((r) => (
+          <a class="related-card" href={r.href}>
+            <span>{r.label}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</article>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

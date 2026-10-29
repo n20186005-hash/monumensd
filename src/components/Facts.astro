@@ -1,0 +1,14 @@
+---
+interface Props {
+  facts: [string, string][];
+}
+const { facts } = Astro.props;
+---
+<dl class="facts-grid">
+  {facts.map(([label, value]) => (
+    <div>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  ))}
+</dl>

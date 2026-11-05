@@ -54,15 +54,24 @@ const faqs = [
 >
   <main id="konten">
     <section class="section-shell hero" id="atas">
+      <img class="hero-image" src="/bali-memorial-jonathan-liem.jpg" alt="Monumen Ground Zero Bali di Jalan Legian, Kuta" fetchpriority="high" />
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-gridline" aria-hidden="true"></div>
+      <div class="hero-content">
       <p class="kicker">{MONUMENT_FORMAL_NAME}</p>
       <h1>{MONUMENT_NAME}</h1>
       <p class="lead">{MONUMENT_NAME} adalah monumen peringatan di Jalan Legian, Kuta, yang mengenang korban tragedi 12 Oktober 2002. Panduan ini membantu Anda memahami sejarah, menemukan lokasi, merencanakan kunjungan yang hormat, dan menjelajahi kawasan Kuta di sekitarnya.</p>
+      <a class="button button-primary" href={MONUMENT_MAP_URL} target="_blank" rel="noopener noreferrer">Lihat lokasi di Google Maps</a>
+      </div>
+      <div class="hero-facts">
       <Facts facts={facts} />
+      </div>
     </section>
 
     <section class="section-shell intro" id="tentang">
       <h2>Tentang monumen ini</h2>
       <p>{MONUMENT_NAME} berada di koridor Jalan Legian, Kuta, Kabupaten Badung, Bali. Ia bukan objek wisata hiburan, melainkan ruang memori terbuka yang menghormati korban, penyintas, dan keluarga yang ditinggalkan.</p>
+      <figure class="memorial-photo"><img src="/bali-memorial-ken-eckert.jpg" alt="Detail monumen peringatan korban tragedi Bali 2002" loading="lazy" /><figcaption>Monumen peringatan di kawasan Legian–Kuta.</figcaption></figure>
       <div class="info-grid">
         <div><h3>Apa</h3><p>Monumen peringatan untuk tragedi 12 Oktober 2002 di kawasan Legian–Kuta.</p></div>
         <div><h3>Di mana</h3><p>Jalan Legian, Kuta, Kabupaten Badung, Bali 80361. <a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Buka di Google Maps</a>.</p></div>

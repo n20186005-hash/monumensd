@@ -105,3 +105,19 @@ img {max-width:100%}.photo-credit a,figcaption a{text-decoration:underline}.faq-
 
 @media(max-width:1050px){.footer-cols{grid-template-columns:1fr 1fr}.cluster-list{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.facts-grid{grid-template-columns:1fr}.topic-facts{grid-template-columns:1fr}}
 @media(max-width:700px){.footer-cols{grid-template-columns:1fr}.footer-base{margin-top:1.6rem}}
+
+/* Restored memorial homepage: pair the original photographic hero with its text and facts. */
+.hero .hero-content{position:relative;z-index:1;min-width:0}
+.hero .hero-content .lead{color:rgba(248,247,242,.86);margin:0 0 1.65rem}
+.hero .hero-content .kicker{color:#e6c4ad}
+.hero .hero-facts{position:relative;z-index:1;min-width:0}
+.hero .facts-grid{margin-top:0;grid-template-columns:1fr}
+.hero .facts-grid div{padding:.75rem .4rem}
+.hero .facts-grid dt{overflow-wrap:anywhere}
+.memorial-photo{margin:2.4rem 0 0;max-width:1000px;background:var(--stone)}
+.memorial-photo img{display:block;width:100%;max-height:570px;object-fit:cover}
+.memorial-photo figcaption{padding:.8rem 1rem;color:#625c52;font-family:var(--mono);font-size:.65rem}
+.intro>h2,.map>h2,.info>h2,.history>h2,.transport>h2,.nearby>h2,.faq>h2,.sources>h2{font-family:var(--display);font-size:clamp(2.7rem,5vw,5.1rem);letter-spacing:-.055em;line-height:1}
+.intro>p:not(.note),.map>p:not(.addr),.history>p,.transport>p,.nearby>p{max-width:820px;font-size:1rem;line-height:1.85}
+@media(max-width:900px){.hero{min-height:650px;grid-template-columns:1fr;gap:2rem;padding:5rem 7vw 3.5rem}.hero .hero-facts{max-width:650px}.hero .facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.hero{min-height:0;padding:4.5rem 1.25rem 2rem}.hero h1{font-size:clamp(3.3rem,14vw,5rem);line-height:.88}.hero .facts-grid{grid-template-columns:1fr}.hero .hero-content .lead{font-size:.94rem}.memorial-photo{margin:1.7rem -1.25rem 0}.memorial-photo img{max-height:400px}}

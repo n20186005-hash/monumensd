@@ -50,15 +50,24 @@ const faqs = [
 >
   <main id="konten">
     <section class="section-shell hero" id="atas">
+      <img class="hero-image" src="/bali-memorial-jonathan-liem.jpg" alt="Bali Ground Zero Memorial on Jalan Legian, Kuta" fetchpriority="high" />
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-gridline" aria-hidden="true"></div>
+      <div class="hero-content">
       <p class="kicker">{MONUMENT_FORMAL_NAME}</p>
       <h1>{MONUMENT_NAME}</h1>
       <p class="lead">{MONUMENT_NAME} is a memorial on Jalan Legian, Kuta, remembering the victims of the 12 October 2002 tragedy. This guide helps you understand the history, find the location, plan a respectful visit, and explore the surrounding Kuta area.</p>
+      <a class="button button-primary" href={MONUMENT_MAP_URL} target="_blank" rel="noopener noreferrer">View on Google Maps</a>
+      </div>
+      <div class="hero-facts">
       <Facts facts={facts} />
+      </div>
     </section>
 
     <section class="section-shell intro" id="tentang">
       <h2>About this memorial</h2>
       <p>{MONUMENT_NAME} stands in the Jalan Legian corridor, Kuta, Badung Regency, Bali. It is not an entertainment attraction but an open memorial space honouring the victims, survivors, and families left behind.</p>
+      <figure class="memorial-photo"><img src="/bali-memorial-ken-eckert.jpg" alt="Details of the Bali 2002 victims memorial" loading="lazy" /><figcaption>The memorial on Jalan Legian, Kuta.</figcaption></figure>
       <div class="info-grid">
         <div><h3>What</h3><p>A memorial for the 12 October 2002 tragedy in the Legian–Kuta area.</p></div>
         <div><h3>Where</h3><p>Jalan Legian, Kuta, Badung Regency, Bali 80361. <a href={MONUMENT_MAP_URL} target="_blank" rel="noopener">Open in Google Maps</a>.</p></div>
